@@ -50,7 +50,7 @@ body {
 
 .app {
   width: 100%;
-  max-width: 1600px; /* Mở rộng tối đa layout */
+  max-width: 1600px;
   background: var(--surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -58,7 +58,7 @@ body {
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 40px); /* Fit vừa màn hình */
+  height: calc(100vh - 40px);
 }
 
 /* ─── HEADER ─── */
@@ -86,7 +86,7 @@ header {
 
 @media (min-width: 1100px) {
   .main-grid {
-    grid-template-columns: 320px 1fr 360px; /* Cột Cấu hình - Cột Giữa - Cột Lịch sử */
+    grid-template-columns: 320px 1fr 360px;
   }
 }
 
@@ -95,7 +95,6 @@ header {
   padding: 24px;
 }
 
-/* Cột trái & phải */
 .config-panel { background: #f8fafc; border-right: 1px solid var(--border); }
 .history-panel { background: #f8fafc; border-left: 1px solid var(--border); display: flex; flex-direction: column;}
 
@@ -277,27 +276,50 @@ input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radi
       <div class="tags-wrap">
         <span class="tags-label">Thẻ âm thanh sinh động &amp; Hành động vật lý</span>
         <div class="tags-row">
-          <button class="tag-btn" data-tag="[gasp]">Hớp hơi / Bất ngờ</button>
+          <!-- Cảm xúc -->
+          <button class="tag-btn" data-tag="[happy]">Vui vẻ</button>
+          <button class="tag-btn" data-tag="[sad]">Buồn</button>
+          <button class="tag-btn" data-tag="[angry]">Tức giận</button>
+          <button class="tag-btn" data-tag="[excited]">Phấn khích</button>
+          <button class="tag-btn" data-tag="[nervous]">Lo lắng</button>
+          <button class="tag-btn" data-tag="[confident]">Tự tin</button>
+          <button class="tag-btn" data-tag="[calm]">Bình tĩnh</button>
+          <button class="tag-btn" data-tag="[serious]">Nghiêm túc</button>
+          <button class="tag-btn" data-tag="[playful]">Tinh nghịch</button>
+          <button class="tag-btn" data-tag="[worried]">Lo âu</button>
+          <button class="tag-btn" data-tag="[frustrated]">Nản lòng</button>
+          <button class="tag-btn" data-tag="[hopeful]">Hy vọng</button>
+          <button class="tag-btn" data-tag="[relieved]">Nhẹ nhõm</button>
+          <button class="tag-btn" data-tag="[disappointed]">Thất vọng</button>
+          <button class="tag-btn" data-tag="[grateful]">Biết ơn</button>
+          <button class="tag-btn" data-tag="[tired]">Mệt mỏi</button>
+          <button class="tag-btn" data-tag="[panicked]">Hoảng loạn</button>
+          
+          <!-- Giọng điệu và Hành động lời nói -->
+          <button class="tag-btn" data-tag="[whispering]">Thì thầm</button>
+          <button class="tag-btn" data-tag="[shouting]">Hét lớn</button>
+          <button class="tag-btn" data-tag="[softly]">Nhẹ nhàng</button>
+          <button class="tag-btn" data-tag="[sarcastic]">Mỉa mai</button>
+          <button class="tag-btn" data-tag="[curious]">Tò mò</button>
+          <button class="tag-btn" data-tag="[mischievously]">Tinh quái</button>
+          <button class="tag-btn" data-tag="[trembling]">Run rẩy</button>
+          <button class="tag-btn" data-tag="[amazed]">Kinh ngạc (giọng)</button>
+          <button class="tag-btn" data-tag="[explaining]">Giải thích</button>
+          <button class="tag-btn" data-tag="[dry tone]">Lạnh lùng</button>
+          <button class="tag-btn" data-tag="[sings]">Ngâm nga</button>
+
+          <!-- Âm thanh vật lý -->
+          <button class="tag-btn" data-tag="[gasp]">Kinh ngạc (hớp hơi)</button>
           <button class="tag-btn" data-tag="[sighs]">Thở dài</button>
-          <button class="tag-btn" data-tag="[exhales]">Thở ra</button>
+          <button class="tag-btn" data-tag="[exhales]">Thở phào</button>
           <button class="tag-btn" data-tag="[laughs]">Cười</button>
           <button class="tag-btn" data-tag="[laughs softly]">Cười nhẹ</button>
           <button class="tag-btn" data-tag="[laughs harder]">Cười lớn</button>
-          <button class="tag-btn" data-tag="[giggles]">Cười khúc khích</button>
+          <button class="tag-btn" data-tag="[giggles]">Khúc khích</button>
           <button class="tag-btn" data-tag="[snorts]">Khịt mũi</button>
           <button class="tag-btn" data-tag="[clears throat]">Hắng giọng</button>
-          <button class="tag-btn" data-tag="[gulps]">Nuốt nước bọt</button>
+          <button class="tag-btn" data-tag="[gulps]">Nuốt ực</button>
           <button class="tag-btn" data-tag="[crying]">Khóc</button>
-          <button class="tag-btn" data-tag="[sings]">Hát</button>
-          <button class="tag-btn" data-tag="[applause]">Tiếng vỗ tay</button>
-          <button class="tag-btn" data-tag="[gunshot]">Tiếng súng</button>
-          <button class="tag-btn" data-tag="[explosion]">Vụ nổ</button>
-          <button class="tag-btn" data-tag="[door creaks]">Cửa cọt kẹt</button>
-          <button class="tag-btn" data-tag="[door slams]">Đóng sầm cửa</button>
-          <button class="tag-btn" data-tag="[thunder]">Sấm sét</button>
-          <button class="tag-btn" data-tag="[rainfall]">Tiếng mưa rơi</button>
-          <button class="tag-btn" data-tag="[distant echo]">Tiếng vang xa</button>
-          <button class="tag-btn" data-tag="[heartbeat]">Nhịp tim</button>
         </div>
       </div>
 
@@ -374,7 +396,6 @@ let toastTimer     = null;
     if (k) document.getElementById(`apiKey${i}`).value = k;
   }
   
-  // Nạp Voice ID từ LocalStorage nếu có, nếu không thì giữ nguyên value mặc định (pNInz...)
   const vi = lsGet('voiceId'); 
   if (vi) elVoiceId.value = vi;
 
