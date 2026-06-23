@@ -276,7 +276,6 @@ input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radi
       <div class="tags-wrap">
         <span class="tags-label">Thẻ âm thanh sinh động &amp; Hành động vật lý</span>
         <div class="tags-row">
-          <!-- Cảm xúc -->
           <button class="tag-btn" data-tag="[happy]">Vui vẻ</button>
           <button class="tag-btn" data-tag="[sad]">Buồn</button>
           <button class="tag-btn" data-tag="[angry]">Tức giận</button>
@@ -295,7 +294,6 @@ input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radi
           <button class="tag-btn" data-tag="[tired]">Mệt mỏi</button>
           <button class="tag-btn" data-tag="[panicked]">Hoảng loạn</button>
           
-          <!-- Giọng điệu và Hành động lời nói -->
           <button class="tag-btn" data-tag="[whispering]">Thì thầm</button>
           <button class="tag-btn" data-tag="[shouting]">Hét lớn</button>
           <button class="tag-btn" data-tag="[softly]">Nhẹ nhàng</button>
@@ -308,7 +306,6 @@ input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radi
           <button class="tag-btn" data-tag="[dry tone]">Lạnh lùng</button>
           <button class="tag-btn" data-tag="[sings]">Ngâm nga</button>
 
-          <!-- Âm thanh vật lý -->
           <button class="tag-btn" data-tag="[gasp]">Kinh ngạc (hớp hơi)</button>
           <button class="tag-btn" data-tag="[sighs]">Thở dài</button>
           <button class="tag-btn" data-tag="[exhales]">Thở phào</button>
@@ -549,12 +546,13 @@ elGenerateBtn.addEventListener('click', async () => {
 
     const historyIndex = lsGetJSON('historyIndex', []);
     const audioId = 'audio_' + Date.now();
-    const cleanSnippet = text.replace(/\[.*?\]/g, '').trim();
-    const label = cleanSnippet.length > 35 ? cleanSnippet.slice(0, 32) + '...' : cleanSnippet;
+    
+    // Đã sửa: Bỏ giới hạn độ dài ký tự của tiêu đề tên file
+    const cleanSnippet = text.replace(/\[.*?\]/g, '').replace(/\s+/g, ' ').trim();
 
     historyIndex.unshift({
       id: audioId,
-      text: label || 'Đoạn mã âm thanh chèn thẻ',
+      text: cleanSnippet || 'am_thanh_elevenlabs',
       date: new Date().toLocaleString('vi-VN')
     });
 
@@ -646,11 +644,14 @@ function buildHistoryRow(item) {
   dlBtn.className = 'hist-action-btn';
   dlBtn.title = 'Tải xuống tệp tin MP3';
   dlBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  
+  // Đã sửa: Đặt tên file tải xuống theo đúng tiêu đề văn bản, bỏ các kí tự bị cấm trên hệ điều hành
   dlBtn.addEventListener('click', () => {
     if(!dataUrl) return;
     const a = document.createElement('a');
     a.href = audio.src;
-    a.download = `TTS_${item.id}.mp3`;
+    let safeFileName = item.text.replace(/[\\/:*?"<>|]/g, '_');
+    a.download = `${safeFileName}.mp3`;
     a.click();
   });
 
