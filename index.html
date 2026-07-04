@@ -3,35 +3,150 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ElevenLabs TTS Pro - Adam Eleven v3</title>
+<title>ElevenLabs TTS · Adam v3</title>
 <style>
 :root{
-  --bg:#070a12;--bg-2:#0b1020;--surface:#0f172a;--surface-2:#111c33;--card:#121b31;
-  --line:rgba(148,163,184,.18);--line-2:rgba(148,163,184,.28);--text:#e5e7eb;--muted:#94a3b8;
-  --soft:#cbd5e1;--accent:#8b5cf6;--accent-2:#22d3ee;--accent-3:#f59e0b;--ok:#22c55e;--danger:#ef4444;--warn:#f59e0b;
-  --shadow:0 24px 80px rgba(0,0,0,.35);--shadow-sm:0 10px 30px rgba(0,0,0,.22);--r:18px;--r-sm:12px;
-  --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,"Helvetica Neue",sans-serif;
+  --bg:#fafafa;--surface:#ffffff;--line:#e7e7e7;--line-2:#dcdcdc;
+  --text:#171717;--muted:#7a7a7a;--soft:#4b4b4b;
+  --accent:#4f46e5;--accent-soft:#eef0fd;--ok:#16a34a;--ok-soft:#eefbf1;
+  --danger:#dc2626;--danger-soft:#fdeeee;--warn:#c2790a;--warn-soft:#fdf3e3;
+  --r:14px;--r-sm:10px;--shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.04);
+  --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{min-height:100vh;background:
-radial-gradient(circle at 12% 10%,rgba(139,92,246,.28),transparent 34%),
-radial-gradient(circle at 86% 20%,rgba(34,211,238,.18),transparent 32%),
-linear-gradient(135deg,var(--bg),var(--bg-2));color:var(--text);font-family:var(--font);line-height:1.55;padding:22px;overflow-x:hidden}
-button,input,textarea,select{font:inherit;color:inherit}button{border:0;cursor:pointer}.hidden{display:none!important}
-.shell{max-width:1700px;margin:0 auto;min-height:calc(100vh - 44px);display:flex;flex-direction:column;background:rgba(15,23,42,.72);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}
-.topbar{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015))}
-.brand{display:flex;align-items:center;gap:14px}.brand-icon{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;box-shadow:0 12px 30px rgba(139,92,246,.28)}
-.brand h1{font-size:18px;letter-spacing:-.02em}.brand p{font-size:12px;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.pill{border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:999px;padding:7px 11px;font-size:12px;color:var(--soft);display:inline-flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:999px;background:var(--ok);box-shadow:0 0 0 5px rgba(34,197,94,.11)}
-.layout{display:grid;grid-template-columns:360px minmax(420px,1fr) 390px;min-height:0;flex:1}.col{padding:22px;min-height:0;overflow:auto}.left{border-right:1px solid var(--line);background:rgba(2,6,23,.2)}.right{border-left:1px solid var(--line);background:rgba(2,6,23,.2)}
-.panel{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:17px;margin-bottom:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panel-title{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}.mini{font-size:11px;color:var(--muted)}
-.fixed-grid{display:grid;gap:10px}.fixed-item{display:flex;justify-content:space-between;gap:12px;padding:11px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:13px}.fixed-item span:first-child{font-size:12px;color:var(--muted)}.fixed-item span:last-child{font-size:12px;font-weight:800;color:#fff;word-break:break-all;text-align:right}.api-tools{display:flex;gap:8px;flex-wrap:wrap}.ghost{height:34px;padding:0 11px;border-radius:11px;background:rgba(255,255,255,.055);border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--soft)}.ghost:hover{border-color:var(--accent-2);color:#fff}.ghost.danger:hover{border-color:var(--danger);color:#fecaca}.ghost.ok:hover{border-color:var(--ok);color:#bbf7d0}
-.field{margin-bottom:14px}.field label,.switch-row label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.value{font-size:12px;color:#fff;background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.25);border-radius:999px;padding:3px 8px;min-width:54px;text-align:center}.help{display:block;font-size:11px;color:var(--muted);margin-top:6px}.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
-textarea.input,input.input,select.input{width:100%;border:1px solid var(--line);background:rgba(2,6,23,.45);border-radius:14px;padding:12px 13px;outline:0;color:#fff;transition:.16s;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}textarea.input:focus,input.input:focus,select.input:focus{border-color:rgba(34,211,238,.55);box-shadow:0 0 0 4px rgba(34,211,238,.08),inset 0 1px 0 rgba(255,255,255,.04)}textarea.input{resize:vertical;min-height:124px}.api-area.masked{-webkit-text-security:disc;letter-spacing:1px}.api-status{display:grid;gap:7px;max-height:168px;overflow:auto}.key-row{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:8px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}.key-num{width:26px;height:26px;border-radius:999px;background:rgba(148,163,184,.12);display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--soft)}.key-preview{font-size:12px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.badge{font-size:11px;font-weight:900;border-radius:999px;padding:4px 8px;background:rgba(148,163,184,.12);color:var(--muted)}.badge.active{background:rgba(34,197,94,.16);color:#86efac}.badge.fail{background:rgba(239,68,68,.15);color:#fca5a5}.badge.wait{background:rgba(245,158,11,.14);color:#fcd34d}
-input[type=range]{-webkit-appearance:none;width:100%;background:transparent}input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:999px;background:#fff;border:3px solid var(--accent);margin-top:-6px;box-shadow:0 6px 18px rgba(0,0,0,.34)}.range-note{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:7px}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.switch-row label{margin:0}.switch{position:relative;width:50px;height:28px;flex:0 0 50px}.switch input{display:none}.slider{position:absolute;inset:0;background:rgba(148,163,184,.25);border:1px solid var(--line);border-radius:999px;transition:.18s}.slider:before{content:"";position:absolute;width:22px;height:22px;left:2px;top:2px;border-radius:999px;background:#fff;transition:.18s;box-shadow:0 4px 12px rgba(0,0,0,.22)}.switch input:checked+.slider{background:linear-gradient(135deg,var(--accent),var(--accent-2));border-color:transparent}.switch input:checked+.slider:before{transform:translateX(22px)}
-.workspace{display:flex;flex-direction:column;gap:16px;min-height:0}.editor-card{display:flex;flex-direction:column;min-height:0;flex:1}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.counter{font-size:12px;color:var(--muted)}.counter.over{color:#fca5a5}.script{min-height:360px;flex:1;font-size:15.5px;line-height:1.8}.tag-bank{display:flex;flex-wrap:wrap;gap:8px;max-height:190px;overflow:auto;padding-right:4px}.tag{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:var(--soft)}.tag:hover{border-color:rgba(34,211,238,.6);color:#fff;background:rgba(34,211,238,.09)}.tag small{font-weight:700;color:var(--muted);margin-left:4px}.primary{width:100%;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-size:15px;font-weight:950;box-shadow:0 18px 42px rgba(34,211,238,.16);display:flex;align-items:center;justify-content:center;gap:10px}.primary:hover{filter:brightness(1.06)}.primary:disabled{opacity:.65;cursor:not-allowed;filter:grayscale(.2)}.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.progress{height:8px;border-radius:999px;background:rgba(148,163,184,.16);overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .2s}
-.player-card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}.player-meta h3{font-size:14px;margin-bottom:4px}.player-meta p{font-size:12px;color:var(--muted)}audio{width:100%;height:42px}.download-now{height:42px;border-radius:13px;padding:0 14px;background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.24);color:#bbf7d0;font-size:12px;font-weight:900}.download-now:hover{background:rgba(34,197,94,.22)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border:1px solid var(--line);border-radius:15px;padding:12px;background:rgba(255,255,255,.035)}.stat b{display:block;font-size:18px;line-height:1;color:#fff}.stat span{display:block;margin-top:5px;font-size:11px;color:var(--muted)}.log-list{display:flex;flex-direction:column;gap:8px;max-height:180px;overflow:auto}.log{font-size:12px;color:var(--soft);padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03)}.log.ok{border-color:rgba(34,197,94,.22);color:#bbf7d0}.log.err{border-color:rgba(239,68,68,.24);color:#fecaca}.log.warn{border-color:rgba(245,158,11,.24);color:#fde68a}
-.history-list{display:flex;flex-direction:column;gap:10px}.empty{text-align:center;color:var(--muted);font-size:13px;padding:34px 16px;border:1px dashed var(--line-2);border-radius:16px}.hist{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:16px;padding:12px}.hist-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}.hist-title{font-size:13px;font-weight:850;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hist-time{font-size:11px;color:var(--muted);white-space:nowrap}.hist-actions{display:grid;grid-template-columns:1fr 1fr 36px;gap:7px}.hist-actions button{height:34px;border-radius:11px;background:rgba(255,255,255,.055);border:1px solid var(--line);font-size:12px;font-weight:850;color:var(--soft)}.hist-actions button:hover{border-color:var(--accent-2);color:#fff}.hist-actions button.delete:hover{border-color:var(--danger);color:#fecaca}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;border-radius:999px;padding:12px 18px;font-size:13px;font-weight:900;background:#fff;color:#0f172a;box-shadow:0 18px 60px rgba(0,0,0,.28);max-width:min(680px,calc(100vw - 36px));text-align:center}.toast.ok{background:#052e16;color:#bbf7d0;border:1px solid rgba(34,197,94,.35)}.toast.err{background:#450a0a;color:#fecaca;border:1px solid rgba(239,68,68,.35)}.toast.warn{background:#451a03;color:#fde68a;border:1px solid rgba(245,158,11,.35)}
-@media(max-width:1200px){.layout{grid-template-columns:1fr}.left,.right{border:0;border-top:1px solid var(--line)}.topbar{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:18px}.script{min-height:310px}.col{overflow:visible}.shell{overflow:visible}.player-card{grid-template-columns:1fr}}@media(max-width:640px){body{padding:10px}.shell{border-radius:18px;min-height:calc(100vh - 20px)}.col{padding:14px}.stats{grid-template-columns:1fr}.fixed-item{display:block}.fixed-item span:last-child{text-align:left;display:block;margin-top:4px}.toolbar{align-items:flex-start;flex-direction:column}.hist-actions{grid-template-columns:1fr 1fr 36px}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;padding:20px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{border:0;cursor:pointer;background:none}
+.hidden{display:none!important}
+
+.shell{max-width:1440px;margin:0 auto;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+
+.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:36px;height:36px;border-radius:10px;background:var(--text);display:grid;place-items:center}
+.brand h1{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand p{font-size:12px;color:var(--muted);margin-top:1px}
+.top-meta{display:flex;gap:16px;font-size:12px;color:var(--muted)}
+.top-meta b{color:var(--soft);font-weight:600}
+
+.layout{display:grid;grid-template-columns:320px minmax(420px,1fr) 320px;flex:1;min-height:0}
+.col{padding:20px;min-height:0;overflow:auto}
+.left{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.panel-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+
+.ghost{height:32px;padding:0 12px;border-radius:9px;background:var(--surface);border:1px solid var(--line-2);font-size:12px;font-weight:600;color:var(--soft)}
+.ghost:hover{border-color:var(--text);color:var(--text)}
+.ghost.danger:hover{border-color:var(--danger);color:var(--danger)}
+.ghost.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.ghost.ok:hover{filter:brightness(0.96)}
+
+.field{margin-bottom:14px}
+.field label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px;font-size:12px;color:var(--muted);font-weight:600}
+.value{font-size:12px;color:var(--text);background:var(--accent-soft);border-radius:6px;padding:2px 7px;min-width:44px;text-align:center;font-weight:600}
+.help{display:block;font-size:11.5px;color:var(--muted);margin-top:6px}
+.mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+
+textarea.input,input.input,select.input{width:100%;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:10px 12px;outline:0;color:var(--text);transition:.14s}
+textarea.input:focus,input.input:focus,select.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea.input{resize:vertical;min-height:96px}
+.api-area.masked{-webkit-text-security:disc;letter-spacing:1px}
+.api-status{display:grid;gap:6px;max-height:150px;overflow:auto}
+.key-row{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;padding:7px 8px;border-radius:9px;border:1px solid var(--line)}
+.key-num{width:20px;height:20px;border-radius:999px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--muted)}
+.key-preview{font-size:11.5px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 8px;background:var(--bg);color:var(--muted)}
+.badge.active{background:var(--ok-soft);color:var(--ok)}
+.badge.fail{background:var(--danger-soft);color:var(--danger)}
+.badge.wait{background:var(--warn-soft);color:var(--warn)}
+
+input[type=range]{-webkit-appearance:none;width:100%;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:var(--line-2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:999px;background:var(--surface);border:2px solid var(--accent);margin-top:-6px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.range-note{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px}
+
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.switch-row label{margin:0}
+.switch{position:relative;width:40px;height:22px;flex:0 0 40px}
+.switch input{display:none}
+.slider{position:absolute;inset:0;background:var(--line-2);border-radius:999px;transition:.16s}
+.slider:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:999px;background:#fff;transition:.16s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.switch input:checked+.slider{background:var(--accent)}
+.switch input:checked+.slider:before{transform:translateX(18px)}
+
+.workspace{display:flex;flex-direction:column;gap:14px;min-height:0}
+.editor-card{display:flex;flex-direction:column;min-height:0;flex:1}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.toolbar-right{display:flex;align-items:center;gap:8px}
+.counter{font-size:12px;color:var(--muted)}
+.counter.over{color:var(--danger)}
+.script{min-height:300px;flex:1;font-size:15px;line-height:1.7}
+
+.tag-bank{display:flex;flex-wrap:wrap;gap:6px;max-height:150px;overflow:auto}
+.tag{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:11.5px;font-weight:600;color:var(--soft)}
+.tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tag small{font-weight:500;color:var(--muted);margin-left:4px}
+
+.primary{width:100%;height:48px;border-radius:12px;background:var(--text);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.primary:hover{filter:brightness(1.12)}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.player-card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.player-meta h3{font-size:13px;font-weight:700;margin-bottom:3px}
+.player-meta p{font-size:11.5px;color:var(--muted)}
+audio{width:100%;height:38px;margin-top:6px}
+.download-now{height:38px;border-radius:10px;padding:0 14px;background:var(--ok-soft);color:var(--ok);font-size:12px;font-weight:700}
+.download-now:hover{filter:brightness(0.96)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:11px;padding:10px;text-align:center}
+.stat b{display:block;font-size:17px;line-height:1;font-weight:700}
+.stat span{display:block;margin-top:4px;font-size:10.5px;color:var(--muted)}
+
+.log-list{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow:auto}
+.log{font-size:11.5px;color:var(--soft);padding:8px 9px;border-radius:9px;border:1px solid var(--line)}
+.log.ok{border-color:transparent;background:var(--ok-soft);color:var(--ok)}
+.log.err{border-color:transparent;background:var(--danger-soft);color:var(--danger)}
+.log.warn{border-color:transparent;background:var(--warn-soft);color:var(--warn)}
+
+.history-list{display:flex;flex-direction:column;gap:8px}
+.empty{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 14px;border:1px dashed var(--line-2);border-radius:12px}
+.hist{border:1px solid var(--line);border-radius:12px;padding:10px}
+.hist-top{margin-bottom:8px}
+.hist-title{font-size:12.5px;font-weight:600;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hist-time{font-size:10.5px;color:var(--muted);margin-top:3px}
+.hist-actions{display:grid;grid-template-columns:1fr 1fr 30px;gap:6px}
+.hist-actions button{height:30px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:11.5px;font-weight:600;color:var(--soft)}
+.hist-actions button:hover{border-color:var(--text);color:var(--text)}
+.hist-actions button.delete:hover{border-color:var(--danger);color:var(--danger)}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:50;border-radius:999px;padding:11px 18px;font-size:13px;font-weight:600;background:var(--text);color:#fff;box-shadow:var(--shadow);max-width:min(640px,calc(100vw - 32px));text-align:center}
+.toast.ok{background:#052e16}
+.toast.err{background:#450a0a}
+.toast.warn{background:#3a2205}
+
+@media(max-width:1200px){
+  .layout{grid-template-columns:1fr}
+  .left,.right{border:0;border-top:1px solid var(--line)}
+  .topbar{height:auto;padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
+  .script{min-height:260px}
+  .col{overflow:visible}
+  .player-card{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  body{padding:10px}
+  .shell{border-radius:16px}
+  .col{padding:14px}
+  .stats{grid-template-columns:1fr}
+  .toolbar{flex-direction:column;align-items:flex-start}
+}
 </style>
 </head>
 <body>
@@ -39,62 +154,51 @@ input[type=range]{-webkit-appearance:none;width:100%;background:transparent}inpu
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 9v6M9 5v14M13 8v8M17 3v18M21 10v4" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 9v6M9 5v14M13 8v8M17 3v18M21 10v4" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg>
       </div>
       <div>
-        <h1>ElevenLabs TTS Pro</h1>
-        <p>Adam voice · Eleven v3 · API fallback theo từng dòng</p>
+        <h1>ElevenLabs TTS</h1>
+        <p>Adam · Eleven v3 · tự chuyển key khi lỗi</p>
       </div>
     </div>
-    <div class="top-actions">
-      <span class="pill"><span class="dot"></span> Workspace sẵn sàng</span>
-      <span class="pill mono">voice: pNInz6obpgDQGcFmaJgB</span>
-      <span class="pill mono">model: eleven_v3</span>
+    <div class="top-meta">
+      <span>Voice <b class="mono">pNInz6ob…aJgB</b></span>
+      <span>Model <b class="mono">eleven_v3</b></span>
     </div>
   </header>
 
   <main class="layout">
     <aside class="col left">
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Cấu hình cố định</span><span class="mini">không cần nhập lại</span></div>
-        <div class="fixed-grid">
-          <div class="fixed-item"><span>Voice ID</span><span class="mono" id="fixedVoice"></span></div>
-          <div class="fixed-item"><span>Model</span><span class="mono" id="fixedModel"></span></div>
-          <div class="fixed-item"><span>Giới hạn gợi ý</span><span>5.000 ký tự / lần</span></div>
-        </div>
-      </section>
-
-      <section class="panel">
         <div class="panel-head">
           <span class="panel-title">API keys</span>
-          <div class="api-tools">
-            <button class="ghost" id="toggleMaskBtn" type="button">Hiện key</button>
+          <div style="display:flex;gap:6px">
+            <button class="ghost" id="toggleMaskBtn" type="button">Hiện</button>
             <button class="ghost ok" id="saveKeysBtn" type="button">Lưu</button>
-            <button class="ghost danger" id="resetKeyStateBtn" type="button">Reset key lỗi</button>
           </div>
         </div>
-        <textarea id="apiKeys" class="input api-area masked mono" spellcheck="false" autocomplete="off" placeholder="Mỗi API key một dòng&#10;sk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#10;sk_yyyyyyyyyyyyyyyyyyyyyyyyyyyyy"></textarea>
-        <span class="help">Web sẽ dùng key từ trên xuống. Khi key bị hết quota / sai quyền / rate limit, hệ thống tự chuyển sang dòng tiếp theo.</span>
-        <div style="height:12px"></div>
+        <textarea id="apiKeys" class="input api-area masked mono" spellcheck="false" autocomplete="off" placeholder="Mỗi API key một dòng"></textarea>
+        <span class="help">Dùng key từ trên xuống. Key hết quota / sai / rate limit sẽ tự chuyển key kế tiếp.</span>
+        <div style="height:10px"></div>
         <div class="api-status" id="keyStatus"></div>
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Voice settings</span><span class="mini">giống Playground</span></div>
+        <div class="panel-head"><span class="panel-title">Voice settings</span></div>
         <div class="field">
           <label for="stability">Stability <span class="value" id="stabilityVal">0.50</span></label>
           <input id="stability" type="range" min="0" max="1" step="0.01" value="0.50" />
-          <div class="range-note"><span>Biểu cảm / ngẫu nhiên</span><span>Ổn định / ít biến thiên</span></div>
+          <div class="range-note"><span>Biểu cảm</span><span>Ổn định</span></div>
         </div>
         <div class="field">
           <label for="similarity">Similarity <span class="value" id="similarityVal">0.75</span></label>
           <input id="similarity" type="range" min="0" max="1" step="0.01" value="0.75" />
-          <div class="range-note"><span>Linh hoạt</span><span>Bám sát giọng gốc</span></div>
+          <div class="range-note"><span>Linh hoạt</span><span>Bám giọng gốc</span></div>
         </div>
         <div class="field">
-          <label for="style">Style Exaggeration <span class="value" id="styleVal">0.00</span></label>
+          <label for="style">Style <span class="value" id="styleVal">0.00</span></label>
           <input id="style" type="range" min="0" max="1" step="0.01" value="0" />
-          <div class="range-note"><span>Tự nhiên</span><span>Cường điệu hơn</span></div>
+          <div class="range-note"><span>Tự nhiên</span><span>Cường điệu</span></div>
         </div>
         <div class="field">
           <label for="speed">Speed <span class="value" id="speedVal">1.00</span></label>
@@ -102,45 +206,21 @@ input[type=range]{-webkit-appearance:none;width:100%;background:transparent}inpu
           <div class="range-note"><span>Chậm</span><span>Nhanh</span></div>
         </div>
         <div class="switch-row">
-          <label for="speakerBoost">Speaker Boost <span class="mini">tăng giống giọng gốc</span></label>
+          <label for="speakerBoost">Speaker Boost</label>
           <span class="switch"><input id="speakerBoost" type="checkbox" checked /><span class="slider"></span></span>
         </div>
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Xuất âm thanh</span><button class="ghost ok" id="saveSettingsBtn" type="button">Lưu setting</button></div>
+        <div class="panel-head"><span class="panel-title">Output</span></div>
         <div class="field">
-          <label for="outputFormat">Output format</label>
+          <label for="outputFormat">Định dạng</label>
           <select id="outputFormat" class="input">
             <option value="mp3_44100_128">MP3 44.1kHz 128kbps</option>
             <option value="mp3_44100_96">MP3 44.1kHz 96kbps</option>
             <option value="mp3_22050_32">MP3 22.05kHz 32kbps</option>
             <option value="mp3_44100_192">MP3 44.1kHz 192kbps</option>
           </select>
-          <span class="help">Một số định dạng bitrate cao có thể yêu cầu gói ElevenLabs cao hơn.</span>
-        </div>
-        <div class="field">
-          <label for="languageCode">Language code</label>
-          <select id="languageCode" class="input">
-            <option value="">Auto</option>
-            <option value="vi">Vietnamese · vi</option>
-            <option value="en">English · en</option>
-            <option value="zh">Chinese · zh</option>
-            <option value="ja">Japanese · ja</option>
-            <option value="ko">Korean · ko</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="normalization">Text normalization</label>
-          <select id="normalization" class="input">
-            <option value="auto">Auto</option>
-            <option value="on">On</option>
-            <option value="off">Off</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="seed">Seed <span class="mini">tùy chọn</span></label>
-          <input id="seed" class="input mono" inputmode="numeric" placeholder="Để trống nếu không cần" />
         </div>
       </section>
     </aside>
@@ -148,28 +228,26 @@ input[type=range]{-webkit-appearance:none;width:100%;background:transparent}inpu
     <section class="col workspace">
       <section class="panel editor-card">
         <div class="toolbar">
-          <div class="toolbar-left"><span class="panel-title">Văn bản chuyển giọng</span><span class="counter" id="charCount">0 / 5000 ký tự</span></div>
+          <div class="toolbar-left"><span class="panel-title">Văn bản</span><span class="counter" id="charCount">0 / 5000</span></div>
           <div class="toolbar-right">
             <button class="ghost" id="pasteBtn" type="button">Dán</button>
-            <button class="ghost" id="copyTextBtn" type="button">Copy text</button>
             <button class="ghost danger" id="clearTextBtn" type="button">Xóa</button>
           </div>
         </div>
-        <textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản tại đây. Có thể dùng tag cảm xúc như [happy], [laughs], [whispering] để Eleven v3 diễn cảm hơn..."></textarea>
+        <textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản. Dùng tag như [happy], [laughs], [whispering] để diễn cảm hơn..."></textarea>
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Tag cảm xúc & hiệu ứng</span><span class="mini">bấm để chèn vào vị trí con trỏ</span></div>
+        <div class="panel-head"><span class="panel-title">Tag cảm xúc</span><span class="help" style="margin:0">bấm để chèn</span></div>
         <div class="tag-bank" id="tagBank"></div>
       </section>
 
       <section>
         <button class="primary" id="generateBtn" type="button">
-          <svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           <span id="spin" class="spinner hidden"></span>
-          <span id="generateLabel">Tạo giọng nói ElevenLabs</span>
+          <span id="generateLabel">Tạo giọng nói</span>
         </button>
-        <div class="progress hidden" id="progress"><span id="progressBar"></span></div>
       </section>
 
       <section class="panel player-card hidden" id="playerCard">
@@ -184,23 +262,23 @@ input[type=range]{-webkit-appearance:none;width:100%;background:transparent}inpu
 
     <aside class="col right">
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Thống kê phiên</span><button class="ghost" id="copyCurlBtn" type="button">Copy cURL</button></div>
+        <div class="panel-head"><span class="panel-title">Thống kê</span></div>
         <div class="stats">
           <div class="stat"><b id="keyCount">0</b><span>API key</span></div>
-          <div class="stat"><b id="okCount">0</b><span>File tạo</span></div>
+          <div class="stat"><b id="okCount">0</b><span>Đã tạo</span></div>
           <div class="stat"><b id="failedCount">0</b><span>Key lỗi</span></div>
         </div>
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Nhật ký xử lý</span><button class="ghost danger" id="clearLogBtn" type="button">Xóa log</button></div>
+        <div class="panel-head"><span class="panel-title">Nhật ký</span><button class="ghost danger" id="clearLogBtn" type="button">Xóa</button></div>
         <div class="log-list" id="logList"></div>
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Lịch sử audio</span><button class="ghost danger" id="clearHistoryBtn" type="button">Xóa hết</button></div>
+        <div class="panel-head"><span class="panel-title">Lịch sử</span><button class="ghost danger" id="clearHistoryBtn" type="button">Xóa hết</button></div>
         <div class="history-list" id="historyList"></div>
-        <div class="empty hidden" id="historyEmpty">Chưa có file audio nào. Bấm tạo giọng để bắt đầu.</div>
+        <div class="empty hidden" id="historyEmpty">Chưa có audio nào.</div>
       </section>
     </aside>
   </main>
@@ -225,20 +303,21 @@ const AUDIO_STORE = 'audios';
 
 const $ = (id) => document.getElementById(id);
 const dom = {
-  fixedVoice: $('fixedVoice'), fixedModel: $('fixedModel'), apiKeys: $('apiKeys'), toggleMaskBtn: $('toggleMaskBtn'),
-  saveKeysBtn: $('saveKeysBtn'), resetKeyStateBtn: $('resetKeyStateBtn'), keyStatus: $('keyStatus'),
+  apiKeys: $('apiKeys'), toggleMaskBtn: $('toggleMaskBtn'), saveKeysBtn: $('saveKeysBtn'), keyStatus: $('keyStatus'),
   stability: $('stability'), stabilityVal: $('stabilityVal'), similarity: $('similarity'), similarityVal: $('similarityVal'),
   style: $('style'), styleVal: $('styleVal'), speed: $('speed'), speedVal: $('speedVal'), speakerBoost: $('speakerBoost'),
-  outputFormat: $('outputFormat'), languageCode: $('languageCode'), normalization: $('normalization'), seed: $('seed'), saveSettingsBtn: $('saveSettingsBtn'),
-  textInput: $('textInput'), charCount: $('charCount'), pasteBtn: $('pasteBtn'), copyTextBtn: $('copyTextBtn'), clearTextBtn: $('clearTextBtn'),
-  tagBank: $('tagBank'), generateBtn: $('generateBtn'), playIcon: $('playIcon'), spin: $('spin'), generateLabel: $('generateLabel'), progress: $('progress'), progressBar: $('progressBar'),
+  outputFormat: $('outputFormat'),
+  textInput: $('textInput'), charCount: $('charCount'), pasteBtn: $('pasteBtn'), clearTextBtn: $('clearTextBtn'),
+  tagBank: $('tagBank'), generateBtn: $('generateBtn'), playIcon: $('playIcon'), spin: $('spin'), generateLabel: $('generateLabel'),
   playerCard: $('playerCard'), playerInfo: $('playerInfo'), audioPlayer: $('audioPlayer'), downloadLastBtn: $('downloadLastBtn'),
-  keyCount: $('keyCount'), okCount: $('okCount'), failedCount: $('failedCount'), copyCurlBtn: $('copyCurlBtn'), clearLogBtn: $('clearLogBtn'), logList: $('logList'),
+  keyCount: $('keyCount'), okCount: $('okCount'), failedCount: $('failedCount'), clearLogBtn: $('clearLogBtn'), logList: $('logList'),
   historyList: $('historyList'), historyEmpty: $('historyEmpty'), clearHistoryBtn: $('clearHistoryBtn'), toast: $('toast')
 };
 
 const TAGS = [
-  ['[happy]','vui'],['[sad]','buồn'],['[angry]','giận'],['[excited]','phấn khích'],['[nervous]','lo'],['[confident]','tự tin'],['[calm]','bình tĩnh'],['[serious]','nghiêm túc'],['[playful]','tinh nghịch'],['[worried]','lo âu'],['[frustrated]','bất lực'],['[hopeful]','hy vọng'],['[relieved]','nhẹ nhõm'],['[disappointed]','thất vọng'],['[grateful]','biết ơn'],['[tired]','mệt'],['[panicked]','hoảng'],['[whispering]','thì thầm'],['[shouting]','hét'],['[softly]','nhẹ'],['[sarcastic]','mỉa mai'],['[curious]','tò mò'],['[mischievously]','tinh quái'],['[trembling]','run'],['[amazed]','ngạc nhiên'],['[explaining]','giải thích'],['[dry tone]','lạnh'],['[sings]','hát'],['[gasp]','hớp hơi'],['[sighs]','thở dài'],['[exhales]','thở phào'],['[laughs]','cười'],['[laughs softly]','cười nhẹ'],['[laughs harder]','cười lớn'],['[giggles]','khúc khích'],['[snorts]','khịt mũi'],['[clears throat]','hắng giọng'],['[gulps]','nuốt ực'],['[crying]','khóc']
+  ['[happy]','vui'],['[sad]','buồn'],['[angry]','giận'],['[excited]','phấn khích'],['[calm]','bình tĩnh'],
+  ['[serious]','nghiêm túc'],['[whispering]','thì thầm'],['[shouting]','hét'],['[curious]','tò mò'],
+  ['[sighs]','thở dài'],['[laughs]','cười'],['[giggles]','khúc khích'],['[crying]','khóc'],['[gasp]','hớp hơi']
 ];
 
 let state = {
@@ -246,13 +325,11 @@ let state = {
   failedKeys: readJSON('failedKeys', {}),
   successCount: Number(readLS('successCount') || 0),
   lastAudio: null,
-  progressTimer: null,
   toastTimer: null
 };
 
 function readLS(key){ try { return localStorage.getItem(STORE_PREFIX + key); } catch { return null; } }
 function writeLS(key,value){ try { localStorage.setItem(STORE_PREFIX + key, value); } catch {} }
-function removeLS(key){ try { localStorage.removeItem(STORE_PREFIX + key); } catch {} }
 function readJSON(key,fallback){ const raw = readLS(key); if(!raw) return fallback; try { return JSON.parse(raw); } catch { return fallback; } }
 function writeJSON(key,value){ writeLS(key, JSON.stringify(value)); }
 function sanitizeText(text){ return String(text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
@@ -261,8 +338,8 @@ function parseKeys(){ return dom.apiKeys.value.split(/\r?\n/).map(v => v.trim())
 function maskKey(key){ if(!key) return ''; if(key.length <= 12) return key[0] + '••••' + key.slice(-2); return key.slice(0,6) + '••••••••••••' + key.slice(-6); }
 function safeFileName(name){ return String(name || 'elevenlabs-audio').replace(/\[[^\]]*\]/g,'').replace(/[\\/:*?"<>|]+/g,'_').replace(/\s+/g,' ').trim().slice(0,120) || 'elevenlabs-audio'; }
 function nowLabel(){ return new Date().toLocaleString('vi-VN'); }
-function log(message,type='info'){ const item = { message, type, at: nowLabel() }; const list = readJSON('logs', []); list.unshift(item); writeJSON('logs', list.slice(0,80)); renderLogs(); }
-function toast(message,type='info'){ clearTimeout(state.toastTimer); dom.toast.textContent = message; dom.toast.className = `toast ${type === 'error' ? 'err' : type === 'success' ? 'ok' : type === 'warn' ? 'warn' : ''}`; state.toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 3600); }
+function log(message,type='info'){ const item = { message, type, at: nowLabel() }; const list = readJSON('logs', []); list.unshift(item); writeJSON('logs', list.slice(0,60)); renderLogs(); }
+function toast(message,type='info'){ clearTimeout(state.toastTimer); dom.toast.textContent = message; dom.toast.className = `toast ${type === 'error' ? 'err' : type === 'success' ? 'ok' : type === 'warn' ? 'warn' : ''}`; dom.toast.classList.remove('hidden'); state.toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 3200); }
 
 function openDB(){
   return new Promise((resolve,reject)=>{
@@ -287,13 +364,10 @@ function getSettings(){
     style: clampNumber(dom.style.value, 0, 1, 0),
     speed: clampNumber(dom.speed.value, 0.7, 1.2, 1),
     use_speaker_boost: dom.speakerBoost.checked,
-    output_format: dom.outputFormat.value || 'mp3_44100_128',
-    language_code: dom.languageCode.value,
-    apply_text_normalization: dom.normalization.value || 'auto',
-    seed: dom.seed.value.trim()
+    output_format: dom.outputFormat.value || 'mp3_44100_128'
   };
 }
-function saveSettings(){ writeJSON('settings', getSettings()); toast('Đã lưu voice settings.', 'success'); }
+function saveSettings(){ writeJSON('settings', getSettings()); }
 function loadSettings(){
   const s = readJSON('settings', null); if(!s) return;
   dom.stability.value = clampNumber(s.stability,0,1,0.5).toFixed(2);
@@ -302,9 +376,6 @@ function loadSettings(){
   dom.speed.value = clampNumber(s.speed,0.7,1.2,1).toFixed(2);
   dom.speakerBoost.checked = s.use_speaker_boost !== false;
   if(s.output_format) dom.outputFormat.value = s.output_format;
-  if(typeof s.language_code === 'string') dom.languageCode.value = s.language_code;
-  if(s.apply_text_normalization) dom.normalization.value = s.apply_text_normalization;
-  if(s.seed) dom.seed.value = s.seed;
 }
 function updateSliderLabels(){
   dom.stabilityVal.textContent = Number(dom.stability.value).toFixed(2);
@@ -320,7 +391,7 @@ function resetKeyState(){
 function saveKeys(){
   writeLS('apiKeys', dom.apiKeys.value.trim());
   resetKeyState();
-  toast('Đã lưu danh sách API key.', 'success');
+  toast('Đã lưu API key.', 'success');
 }
 function renderKeyStatus(){
   const keys = parseKeys();
@@ -344,7 +415,7 @@ function updateStats(){
 }
 function updateCharCount(){
   const len = dom.textInput.value.length;
-  dom.charCount.textContent = `${len} / ${CONFIG.maxChars} ký tự`;
+  dom.charCount.textContent = `${len} / ${CONFIG.maxChars}`;
   dom.charCount.classList.toggle('over', len > CONFIG.maxChars);
   writeLS('draftText', dom.textInput.value);
 }
@@ -382,11 +453,11 @@ function renderHistory(){
   dom.historyList.innerHTML = '';
   dom.historyEmpty.classList.toggle('hidden', history.length > 0);
   history.forEach(item=>{
-    dom.historyList.insertAdjacentHTML('beforeend', `<article class="hist" data-id="${sanitizeText(item.id)}"><div class="hist-top"><div><div class="hist-title" title="${sanitizeText(item.text)}">${sanitizeText(item.text)}</div><div class="hist-time">${sanitizeText(item.createdAt)} · ${sanitizeText(item.chars)} ký tự · key #${sanitizeText(item.keyNumber)}</div></div></div><div class="hist-actions"><button type="button" data-action="play">Phát</button><button type="button" data-action="download">Tải MP3</button><button class="delete" type="button" data-action="delete">×</button></div></article>`);
+    dom.historyList.insertAdjacentHTML('beforeend', `<article class="hist" data-id="${sanitizeText(item.id)}"><div class="hist-top"><div class="hist-title" title="${sanitizeText(item.text)}">${sanitizeText(item.text)}</div><div class="hist-time">${sanitizeText(item.createdAt)} · ${sanitizeText(item.chars)} ký tự · key #${sanitizeText(item.keyNumber)}</div></div><div class="hist-actions"><button type="button" data-action="play">Phát</button><button type="button" data-action="download">Tải</button><button class="delete" type="button" data-action="delete">×</button></div></article>`);
   });
 }
 async function playHistory(id){
-  const blob = await getAudio(id); if(!blob) throw new Error('Không tìm thấy audio trong IndexedDB.');
+  const blob = await getAudio(id); if(!blob) throw new Error('Không tìm thấy audio.');
   setAudioPlayer(blob, getHistory().find(i => i.id === id));
   await dom.audioPlayer.play().catch(()=>{});
 }
@@ -412,16 +483,7 @@ function setAudioPlayer(blob, meta){
 }
 function setLoading(on){
   dom.generateBtn.disabled = on; dom.playIcon.classList.toggle('hidden', on); dom.spin.classList.toggle('hidden', !on);
-  dom.generateLabel.textContent = on ? 'Đang tạo audio...' : 'Tạo giọng nói ElevenLabs';
-  dom.progress.classList.toggle('hidden', !on);
-  clearInterval(state.progressTimer);
-  if(on){
-    let p = 3; dom.progressBar.style.width = '3%';
-    state.progressTimer = setInterval(()=>{ p = Math.min(94, p + Math.random()*10); dom.progressBar.style.width = p + '%'; }, 220);
-  } else {
-    dom.progressBar.style.width = '100%';
-    setTimeout(()=>{ dom.progress.classList.add('hidden'); dom.progressBar.style.width = '0%'; }, 380);
-  }
+  dom.generateLabel.textContent = on ? 'Đang tạo...' : 'Tạo giọng nói';
 }
 async function readErrorResponse(res){
   const contentType = res.headers.get('content-type') || '';
@@ -431,7 +493,7 @@ async function readErrorResponse(res){
       const data = await res.json(); detail = data?.detail?.message || data?.detail || data?.message || JSON.stringify(data);
     } else { detail = await res.text(); }
   } catch { detail = ''; }
-  return String(detail || `HTTP ${res.status}`).slice(0, 360);
+  return String(detail || `HTTP ${res.status}`).slice(0, 300);
 }
 function isFallbackStatus(status){ return [401,402,403,429].includes(status); }
 function shortReason(status){
@@ -443,31 +505,27 @@ function shortReason(status){
 }
 function buildPayload(text){
   const s = getSettings();
-  const payload = {
-    text,
-    model_id: CONFIG.modelId,
-    voice_settings: {
-      stability: s.stability,
-      similarity_boost: s.similarity_boost,
-      style: s.style,
-      speed: s.speed,
-      use_speaker_boost: s.use_speaker_boost
+  return {
+    payload: {
+      text,
+      model_id: CONFIG.modelId,
+      voice_settings: {
+        stability: s.stability,
+        similarity_boost: s.similarity_boost,
+        style: s.style,
+        speed: s.speed,
+        use_speaker_boost: s.use_speaker_boost
+      }
     },
-    apply_text_normalization: s.apply_text_normalization
+    outputFormat: s.output_format
   };
-  if(s.language_code) payload.language_code = s.language_code;
-  if(s.seed){
-    const seed = Number(s.seed);
-    if(Number.isInteger(seed) && seed >= 0 && seed <= 4294967295) payload.seed = seed;
-  }
-  return { payload, outputFormat: s.output_format };
 }
 async function generateAudio(){
   const text = dom.textInput.value.trim();
   const keys = parseKeys();
   if(!keys.length){ toast('Hãy nhập ít nhất 1 API key.', 'error'); return; }
   if(!text){ toast('Văn bản đang trống.', 'error'); return; }
-  if(text.length > CONFIG.maxChars){ toast(`Eleven v3 nên giữ dưới ${CONFIG.maxChars} ký tự mỗi lần.`, 'error'); return; }
+  if(text.length > CONFIG.maxChars){ toast(`Nên giữ dưới ${CONFIG.maxChars} ký tự mỗi lần.`, 'error'); return; }
 
   saveSettings(); writeLS('apiKeys', dom.apiKeys.value.trim());
   setLoading(true);
@@ -479,7 +537,7 @@ async function generateAudio(){
     for(let i = startIndex; i < keys.length; i++){
       if(state.failedKeys[i]) continue;
       state.activeKeyIndex = i; writeLS('activeKeyIndex', String(i)); renderKeyStatus();
-      log(`Đang gửi request bằng API key #${i+1}...`);
+      log(`Đang gửi request bằng key #${i+1}...`);
       const url = `${CONFIG.apiBase}${encodeURIComponent(CONFIG.voiceId)}?output_format=${encodeURIComponent(outputFormat)}`;
       let res;
       try {
@@ -489,7 +547,7 @@ async function generateAudio(){
           body: JSON.stringify(payload)
         });
       } catch(networkErr){
-        throw new Error('Không kết nối được ElevenLabs. Kiểm tra mạng hoặc CORS trình duyệt.');
+        throw new Error('Không kết nối được ElevenLabs. Kiểm tra mạng hoặc CORS.');
       }
 
       if(!res.ok){
@@ -499,19 +557,19 @@ async function generateAudio(){
           state.failedKeys[i] = { status: res.status, short: shortReason(res.status), detail, at: nowLabel() };
           writeJSON('failedKeys', state.failedKeys);
           state.activeKeyIndex = i + 1; writeLS('activeKeyIndex', String(state.activeKeyIndex));
-          renderKeyStatus(); log(`${shortReason(res.status)} ở key #${i+1}; chuyển sang key tiếp theo.`, 'warn');
+          renderKeyStatus(); log(`${shortReason(res.status)} ở key #${i+1}; chuyển key tiếp theo.`, 'warn');
           continue;
         }
         throw new Error(lastError);
       }
 
       const contentType = res.headers.get('content-type') || 'audio/mpeg';
-      if(!contentType.includes('audio') && !contentType.includes('mpeg')) throw new Error('ElevenLabs không trả về audio hợp lệ.');
+      if(!contentType.includes('audio') && !contentType.includes('mpeg')) throw new Error('Không nhận được audio hợp lệ.');
       const blob = await res.blob();
-      if(!blob || blob.size < 128) throw new Error('Audio trả về rỗng hoặc quá nhỏ.');
+      if(!blob || blob.size < 128) throw new Error('Audio trả về rỗng.');
 
       const cleanTitle = safeFileName(text).replace(/_/g,' ');
-      const meta = { text: cleanTitle, createdAt: nowLabel(), chars: text.length, keyNumber: i + 1, settings: getSettings() };
+      const meta = { text: cleanTitle, createdAt: nowLabel(), chars: text.length, keyNumber: i + 1 };
       await addHistory(blob, meta);
       setAudioPlayer(blob, meta);
       await dom.audioPlayer.play().catch(()=>{});
@@ -521,41 +579,29 @@ async function generateAudio(){
       toast('Tạo audio thành công.', 'success');
       return;
     }
-    throw new Error(lastError || 'Tất cả API key đều đã lỗi hoặc hết quota.');
+    throw new Error(lastError || 'Tất cả API key đều lỗi hoặc hết quota.');
   } catch(err){
-    const message = err?.message || 'Lỗi không xác định khi tạo giọng.';
+    const message = err?.message || 'Lỗi không xác định.';
     log(message, 'error'); toast(message, 'error');
   } finally { setLoading(false); }
 }
-function copyCurl(){
-  const text = dom.textInput.value.trim() || 'This is a test for the API of ElevenLabs.';
-  const { payload, outputFormat } = buildPayload(text);
-  const curlPayload = JSON.stringify(payload, null, 2).replace(/'/g, "'\\''");
-  const cmd = `curl -X POST "https://api.elevenlabs.io/v1/text-to-speech/${CONFIG.voiceId}?output_format=${outputFormat}" \\\n  -H "xi-api-key: $ELEVENLABS_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '${curlPayload}' \\\n  --output output.mp3`;
-  navigator.clipboard.writeText(cmd).then(()=>toast('Đã copy cURL mẫu.', 'success')).catch(()=>toast('Không copy được cURL.', 'error'));
-}
 
 function bindEvents(){
-  dom.fixedVoice.textContent = CONFIG.voiceId; dom.fixedModel.textContent = CONFIG.modelId;
   dom.apiKeys.value = readLS('apiKeys') || '';
   dom.textInput.value = readLS('draftText') || '';
   ['stability','similarity','style','speed'].forEach(id => dom[id].addEventListener('input', updateSliderLabels));
-  ['speakerBoost','outputFormat','languageCode','normalization','seed'].forEach(id => dom[id].addEventListener('change', saveSettings));
-  dom.saveSettingsBtn.addEventListener('click', saveSettings);
+  ['speakerBoost','outputFormat'].forEach(id => dom[id].addEventListener('change', saveSettings));
   dom.saveKeysBtn.addEventListener('click', saveKeys);
-  dom.resetKeyStateBtn.addEventListener('click', () => { resetKeyState(); toast('Đã reset trạng thái key lỗi.', 'success'); });
-  dom.toggleMaskBtn.addEventListener('click', () => { dom.apiKeys.classList.toggle('masked'); dom.toggleMaskBtn.textContent = dom.apiKeys.classList.contains('masked') ? 'Hiện key' : 'Ẩn key'; });
+  dom.toggleMaskBtn.addEventListener('click', () => { dom.apiKeys.classList.toggle('masked'); dom.toggleMaskBtn.textContent = dom.apiKeys.classList.contains('masked') ? 'Hiện' : 'Ẩn'; });
   dom.apiKeys.addEventListener('input', () => { writeLS('apiKeys', dom.apiKeys.value.trim()); renderKeyStatus(); });
   dom.textInput.addEventListener('input', updateCharCount);
   dom.clearTextBtn.addEventListener('click', () => { dom.textInput.value=''; updateCharCount(); dom.textInput.focus(); });
-  dom.copyTextBtn.addEventListener('click', () => navigator.clipboard.writeText(dom.textInput.value).then(()=>toast('Đã copy văn bản.', 'success')).catch(()=>toast('Không copy được.', 'error')));
-  dom.pasteBtn.addEventListener('click', async () => { try { const t = await navigator.clipboard.readText(); insertAtCursor(t); toast('Đã dán văn bản.', 'success'); } catch { toast('Trình duyệt không cho đọc clipboard.', 'warn'); } });
+  dom.pasteBtn.addEventListener('click', async () => { try { const t = await navigator.clipboard.readText(); insertAtCursor(t); } catch { toast('Trình duyệt không cho đọc clipboard.', 'warn'); } });
   dom.tagBank.addEventListener('click', e => { const btn = e.target.closest('[data-tag]'); if(btn) insertAtCursor(btn.dataset.tag); });
   dom.generateBtn.addEventListener('click', generateAudio);
   dom.downloadLastBtn.addEventListener('click', () => { if(!state.lastAudio?.blob) return toast('Chưa có audio để tải.', 'warn'); const name = state.lastAudio.meta ? safeFileName(state.lastAudio.meta.text) : 'elevenlabs-audio'; downloadBlob(state.lastAudio.blob, `${name}.mp3`); });
-  dom.copyCurlBtn.addEventListener('click', copyCurl);
   dom.clearLogBtn.addEventListener('click', () => { writeJSON('logs', []); renderLogs(); });
-  dom.clearHistoryBtn.addEventListener('click', async () => { if(!confirm('Xóa toàn bộ lịch sử audio đã lưu trên trình duyệt này?')) return; setHistory([]); await clearAudios(); renderHistory(); toast('Đã xóa lịch sử audio.', 'success'); });
+  dom.clearHistoryBtn.addEventListener('click', async () => { if(!confirm('Xóa toàn bộ lịch sử audio?')) return; setHistory([]); await clearAudios(); renderHistory(); toast('Đã xóa lịch sử.', 'success'); });
   dom.historyList.addEventListener('click', async e => {
     const btn = e.target.closest('button[data-action]'); if(!btn) return;
     const card = e.target.closest('.hist'); const id = card?.dataset?.id; if(!id) return;
@@ -569,7 +615,7 @@ function bindEvents(){
 
 (function init(){
   loadSettings(); updateSliderLabels(); renderTags(); bindEvents(); updateCharCount(); renderKeyStatus(); renderLogs(); renderHistory(); updateStats();
-  if(!readJSON('logs', []).length) log('Workspace đã khởi động. Nhập API key theo từng dòng để bắt đầu.', 'success');
+  if(!readJSON('logs', []).length) log('Workspace đã khởi động. Nhập API key để bắt đầu.', 'success');
 })();
 </script>
 </body>
