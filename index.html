@@ -30,7 +30,7 @@ button{border:0;cursor:pointer;background:none}
 .top-meta{display:flex;gap:16px;font-size:12px;color:var(--muted)}
 .top-meta b{color:var(--soft);font-weight:600}
 
-.layout{display:grid;grid-template-columns:320px minmax(420px,1fr) 320px;flex:1;min-height:0}
+.layout{display:grid;grid-template-columns:300px minmax(520px,1fr) 360px;flex:1;min-height:0}
 .col{padding:20px;min-height:0;overflow:auto}
 .left{border-right:1px solid var(--line)}
 .right{border-left:1px solid var(--line)}
@@ -85,12 +85,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .toolbar-right{display:flex;align-items:center;gap:8px}
 .counter{font-size:12px;color:var(--muted)}
 .counter.over{color:var(--danger)}
-.script{min-height:300px;flex:1;font-size:15px;line-height:1.7}
+.script{min-height:168px;max-height:240px;flex:0 0 auto;font-size:15px;line-height:1.65}
 
-.tag-bank{display:flex;flex-wrap:wrap;gap:6px;max-height:150px;overflow:auto}
-.tag{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:11.5px;font-weight:600;color:var(--soft)}
-.tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tag-bank{display:flex;flex-direction:column;gap:10px;max-height:430px;overflow:auto;padding-right:2px}
+.tag-folder{border:1px solid var(--line);border-radius:13px;background:var(--surface);overflow:hidden}
+.tag-folder[open]{border-color:var(--line-2);box-shadow:0 8px 24px rgba(0,0,0,.035)}
+.tag-folder-toggle{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px;cursor:pointer;background:linear-gradient(180deg,#fff,#fbfbfb)}
+.tag-folder-toggle::-webkit-details-marker{display:none}
+.tag-folder-title{display:flex;flex-direction:column;gap:2px;font-size:12.5px;font-weight:800;color:var(--text)}
+.tag-folder-title small{font-size:11px;font-weight:500;color:var(--muted)}
+.tag-count{font-size:10.5px;font-weight:800;border-radius:999px;padding:4px 8px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.tag-folder-body{display:flex;flex-direction:column;gap:12px;padding:0 12px 13px}
+.tag-subgroup{border-top:1px solid var(--line);padding-top:11px}
+.tag-subtitle{font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:800;color:var(--muted);margin-bottom:8px}
+.tag-grid{display:flex;flex-wrap:wrap;gap:7px}
+.tag{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 10px;font-size:11.5px;font-weight:700;color:var(--soft);transition:.14s}
+.tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
 .tag small{font-weight:500;color:var(--muted);margin-left:4px}
+.tag:focus-visible{outline:3px solid var(--accent-soft);border-color:var(--accent)}
 
 .primary{width:100%;height:48px;border-radius:12px;background:var(--text);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
 .primary:hover{filter:brightness(1.12)}
@@ -116,7 +128,7 @@ audio{width:100%;height:38px;margin-top:6px}
 .log.err{border-color:transparent;background:var(--danger-soft);color:var(--danger)}
 .log.warn{border-color:transparent;background:var(--warn-soft);color:var(--warn)}
 
-.history-list{display:flex;flex-direction:column;gap:8px}
+.history-list{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 160px);overflow:auto}
 .empty{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 14px;border:1px dashed var(--line-2);border-radius:12px}
 .hist{border:1px solid var(--line);border-radius:12px;padding:10px}
 .hist-top{margin-bottom:8px}
@@ -136,7 +148,7 @@ audio{width:100%;height:38px;margin-top:6px}
   .layout{grid-template-columns:1fr}
   .left,.right{border:0;border-top:1px solid var(--line)}
   .topbar{height:auto;padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
-  .script{min-height:260px}
+  .script{min-height:160px;max-height:240px}
   .col{overflow:visible}
   .player-card{grid-template-columns:1fr}
 }
@@ -238,7 +250,7 @@ audio{width:100%;height:38px;margin-top:6px}
       </section>
 
       <section class="panel">
-        <div class="panel-head"><span class="panel-title">Tag cảm xúc</span><span class="help" style="margin:0">bấm để chèn</span></div>
+        <div class="panel-head"><span class="panel-title">Tag cảm xúc v3</span><span class="help" style="margin:0">mở thư mục · bấm tag để chèn</span></div>
         <div class="tag-bank" id="tagBank"></div>
       </section>
 
@@ -261,21 +273,7 @@ audio{width:100%;height:38px;margin-top:6px}
     </section>
 
     <aside class="col right">
-      <section class="panel">
-        <div class="panel-head"><span class="panel-title">Thống kê</span></div>
-        <div class="stats">
-          <div class="stat"><b id="keyCount">0</b><span>API key</span></div>
-          <div class="stat"><b id="okCount">0</b><span>Đã tạo</span></div>
-          <div class="stat"><b id="failedCount">0</b><span>Key lỗi</span></div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><span class="panel-title">Nhật ký</span><button class="ghost danger" id="clearLogBtn" type="button">Xóa</button></div>
-        <div class="log-list" id="logList"></div>
-      </section>
-
-      <section class="panel">
+      <section class="panel history-panel">
         <div class="panel-head"><span class="panel-title">Lịch sử</span><button class="ghost danger" id="clearHistoryBtn" type="button">Xóa hết</button></div>
         <div class="history-list" id="historyList"></div>
         <div class="empty hidden" id="historyEmpty">Chưa có audio nào.</div>
@@ -310,14 +308,102 @@ const dom = {
   textInput: $('textInput'), charCount: $('charCount'), pasteBtn: $('pasteBtn'), clearTextBtn: $('clearTextBtn'),
   tagBank: $('tagBank'), generateBtn: $('generateBtn'), playIcon: $('playIcon'), spin: $('spin'), generateLabel: $('generateLabel'),
   playerCard: $('playerCard'), playerInfo: $('playerInfo'), audioPlayer: $('audioPlayer'), downloadLastBtn: $('downloadLastBtn'),
-  keyCount: $('keyCount'), okCount: $('okCount'), failedCount: $('failedCount'), clearLogBtn: $('clearLogBtn'), logList: $('logList'),
   historyList: $('historyList'), historyEmpty: $('historyEmpty'), clearHistoryBtn: $('clearHistoryBtn'), toast: $('toast')
 };
 
-const TAGS = [
-  ['[happy]','vui'],['[sad]','buồn'],['[angry]','giận'],['[excited]','phấn khích'],['[calm]','bình tĩnh'],
-  ['[serious]','nghiêm túc'],['[whispering]','thì thầm'],['[shouting]','hét'],['[curious]','tò mò'],
-  ['[sighs]','thở dài'],['[laughs]','cười'],['[giggles]','khúc khích'],['[crying]','khóc'],['[gasp]','hớp hơi']
+const TAG_GROUPS = [
+  {
+    title: 'Phản ứng người thật / âm thanh miệng',
+    desc: 'Tiếng cười, hơi thở, ngắt nhịp, phản ứng tự nhiên.',
+    children: [
+      {
+        title: 'Cười & phản ứng',
+        tags: [
+          ['[laughs]', 'cười'], ['[laughs harder]', 'cười lớn'], ['[laughs softly]', 'cười nhẹ'],
+          ['[giggles]', 'khúc khích'], ['[chuckles]', 'cười mỉm'], ['[wheezing]', 'thở khò khè'],
+          ['[snorts]', 'khịt mũi'], ['[gasps]', 'hớp hơi'], ['[gasp]', 'hít mạnh']
+        ]
+      },
+      {
+        title: 'Thở & ngắt nhịp',
+        tags: [
+          ['[sighs]', 'thở dài'], ['[sigh]', 'thở dài'], ['[frustrated sigh]', 'thở dài bực'],
+          ['[exhales]', 'thở ra'], ['[exhales sharply]', 'thở mạnh'], ['[inhales deeply]', 'hít sâu'],
+          ['[pause]', 'ngắt nghỉ'], ['[pauses]', 'tạm dừng'], ['[short pause]', 'nghỉ ngắn'], ['[long pause]', 'nghỉ dài']
+        ]
+      },
+      {
+        title: 'Miệng & ngập ngừng',
+        tags: [
+          ['[gulps]', 'nuốt ực'], ['[swallows]', 'nuốt nước bọt'], ['[clears throat]', 'hắng giọng'],
+          ['[stammers]', 'nói lắp'], ['[muttering]', 'lẩm bẩm'], ['[groaning]', 'rên rỉ'],
+          ['[hesitates]', 'do dự'], ['[continues after a beat]', 'nghỉ rồi nói tiếp']
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Cách nói / tone / diễn xuất',
+    desc: 'Điều khiển âm lượng, tốc độ, nhấn nhá và kiểu biểu diễn.',
+    children: [
+      {
+        title: 'Âm lượng & năng lượng',
+        tags: [
+          ['[whispers]', 'thì thầm'], ['[whispering]', 'đang thì thầm'], ['[shouts]', 'hét'],
+          ['[shouting]', 'đang hét'], ['[quietly]', 'nói nhỏ'], ['[loudly]', 'nói to']
+        ]
+      },
+      {
+        title: 'Tốc độ & nhịp nói',
+        tags: [
+          ['[slow]', 'chậm'], ['[slowly]', 'nói chậm'], ['[slows down]', 'chậm dần'],
+          ['[rushed]', 'nói vội'], ['[rapid-fire]', 'nói dồn dập'], ['[deliberate]', 'rõ từng chữ'],
+          ['[drawn out]', 'kéo dài']
+        ]
+      },
+      {
+        title: 'Diễn xuất & chất giọng',
+        tags: [
+          ['[flatly]', 'giọng ngang'], ['[deadpan]', 'tỉnh bơ'], ['[dramatic tone]', 'kịch tính'],
+          ['[serious tone]', 'nghiêm túc'], ['[sarcastically]', 'mỉa mai'], ['[playfully]', 'tinh nghịch'],
+          ['[cheerfully]', 'vui vẻ'], ['[calmly]', 'điềm tĩnh'], ['[conversational tone]', 'tự nhiên'],
+          ['[robotic tone]', 'giọng robot'], ['[childlike tone]', 'trẻ con'], ['[suspicious tone]', 'nghi ngờ'],
+          ['[resigned tone]', 'cam chịu']
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Cảm xúc / trạng thái giọng',
+    desc: 'Đổi cảm xúc trực tiếp cho câu thoại hoặc đoạn ngắn.',
+    children: [
+      {
+        title: 'Cảm xúc cơ bản',
+        tags: [
+          ['[happy]', 'vui'], ['[sad]', 'buồn'], ['[angry]', 'giận'], ['[excited]', 'phấn khích'],
+          ['[nervous]', 'lo lắng'], ['[calm]', 'bình tĩnh'], ['[tired]', 'mệt mỏi'], ['[surprised]', 'bất ngờ']
+        ]
+      },
+      {
+        title: 'Kịch tính & xung đột',
+        tags: [
+          ['[frustrated]', 'bực bội'], ['[sorrowful]', 'đau buồn'], ['[annoyed]', 'khó chịu'],
+          ['[appalled]', 'kinh ngạc xấu'], ['[exasperated]', 'bất lực'], ['[sarcastic]', 'châm biếm'],
+          ['[mischievously]', 'tinh quái'], ['[regretful]', 'hối tiếc']
+        ]
+      },
+      {
+        title: 'Tinh tế & suy nghĩ',
+        tags: [
+          ['[thoughtful]', 'trầm tư'], ['[curious]', 'tò mò'], ['[hesitant]', 'ngập ngừng'],
+          ['[resigned]', 'cam chịu'], ['[awe]', 'choáng ngợp'], ['[elated]', 'hân hoan'],
+          ['[indecisive]', 'phân vân'], ['[quizzically]', 'ngờ vực'], ['[worried]', 'lo âu'],
+          ['[hopeful]', 'hy vọng'], ['[relieved]', 'nhẹ nhõm'], ['[disappointed]', 'thất vọng'],
+          ['[grateful]', 'biết ơn']
+        ]
+      }
+    ]
+  }
 ];
 
 let state = {
@@ -338,7 +424,7 @@ function parseKeys(){ return dom.apiKeys.value.split(/\r?\n/).map(v => v.trim())
 function maskKey(key){ if(!key) return ''; if(key.length <= 12) return key[0] + '••••' + key.slice(-2); return key.slice(0,6) + '••••••••••••' + key.slice(-6); }
 function safeFileName(name){ return String(name || 'elevenlabs-audio').replace(/\[[^\]]*\]/g,'').replace(/[\\/:*?"<>|]+/g,'_').replace(/\s+/g,' ').trim().slice(0,120) || 'elevenlabs-audio'; }
 function nowLabel(){ return new Date().toLocaleString('vi-VN'); }
-function log(message,type='info'){ const item = { message, type, at: nowLabel() }; const list = readJSON('logs', []); list.unshift(item); writeJSON('logs', list.slice(0,60)); renderLogs(); }
+function log(message,type='info'){ console[type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'info'](`[${type}] ${message}`); }
 function toast(message,type='info'){ clearTimeout(state.toastTimer); dom.toast.textContent = message; dom.toast.className = `toast ${type === 'error' ? 'err' : type === 'success' ? 'ok' : type === 'warn' ? 'warn' : ''}`; dom.toast.classList.remove('hidden'); state.toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 3200); }
 
 function openDB(){
@@ -407,20 +493,37 @@ function renderKeyStatus(){
   });
   updateStats();
 }
-function updateStats(){
-  const keys = parseKeys();
-  dom.keyCount.textContent = keys.length;
-  dom.failedCount.textContent = Object.keys(state.failedKeys || {}).length;
-  dom.okCount.textContent = state.successCount;
-}
+function updateStats(){ return true; }
 function updateCharCount(){
   const len = dom.textInput.value.length;
   dom.charCount.textContent = `${len} / ${CONFIG.maxChars}`;
   dom.charCount.classList.toggle('over', len > CONFIG.maxChars);
   writeLS('draftText', dom.textInput.value);
 }
+function countTags(children){
+  return children.reduce((total, child) => total + child.tags.length, 0);
+}
+function renderTagButtons(tags){
+  return tags.map(([tag, label]) => `<button class="tag" type="button" data-tag="${sanitizeText(tag)}"><span class="mono">${sanitizeText(tag)}</span><small>${sanitizeText(label)}</small></button>`).join('');
+}
 function renderTags(){
-  dom.tagBank.innerHTML = TAGS.map(([tag, label]) => `<button class="tag" type="button" data-tag="${sanitizeText(tag)}"><span class="mono">${sanitizeText(tag)}</span><small>${sanitizeText(label)}</small></button>`).join('');
+  dom.tagBank.innerHTML = TAG_GROUPS.map((group, index) => {
+    const children = group.children.map(child => `
+      <div class="tag-subgroup">
+        <div class="tag-subtitle">${sanitizeText(child.title)}</div>
+        <div class="tag-grid">${renderTagButtons(child.tags)}</div>
+      </div>
+    `).join('');
+    return `
+      <details class="tag-folder" ${index === 0 ? 'open' : ''}>
+        <summary class="tag-folder-toggle">
+          <span class="tag-folder-title">${sanitizeText(group.title)}<small>${sanitizeText(group.desc)}</small></span>
+          <span class="tag-count">${countTags(group.children)} tag</span>
+        </summary>
+        <div class="tag-folder-body">${children}</div>
+      </details>
+    `;
+  }).join('');
 }
 function insertAtCursor(text){
   const el = dom.textInput; const start = el.selectionStart; const end = el.selectionEnd; const current = el.value;
@@ -430,10 +533,7 @@ function insertAtCursor(text){
   const pos = start + prefix.length + text.length + suffix.length;
   el.selectionStart = el.selectionEnd = pos; el.focus(); updateCharCount();
 }
-function renderLogs(){
-  const logs = readJSON('logs', []);
-  dom.logList.innerHTML = logs.length ? logs.map(item => `<div class="log ${item.type === 'error' ? 'err' : item.type === 'success' ? 'ok' : item.type === 'warn' ? 'warn' : ''}"><b>${sanitizeText(item.at)}</b> · ${sanitizeText(item.message)}</div>`).join('') : '<div class="empty">Chưa có log.</div>';
-}
+function renderLogs(){ return true; }
 function getHistory(){ return readJSON('history', []); }
 function setHistory(list){ writeJSON('history', list.slice(0, CONFIG.maxHistory)); }
 async function addHistory(blob, meta){
@@ -600,7 +700,6 @@ function bindEvents(){
   dom.tagBank.addEventListener('click', e => { const btn = e.target.closest('[data-tag]'); if(btn) insertAtCursor(btn.dataset.tag); });
   dom.generateBtn.addEventListener('click', generateAudio);
   dom.downloadLastBtn.addEventListener('click', () => { if(!state.lastAudio?.blob) return toast('Chưa có audio để tải.', 'warn'); const name = state.lastAudio.meta ? safeFileName(state.lastAudio.meta.text) : 'elevenlabs-audio'; downloadBlob(state.lastAudio.blob, `${name}.mp3`); });
-  dom.clearLogBtn.addEventListener('click', () => { writeJSON('logs', []); renderLogs(); });
   dom.clearHistoryBtn.addEventListener('click', async () => { if(!confirm('Xóa toàn bộ lịch sử audio?')) return; setHistory([]); await clearAudios(); renderHistory(); toast('Đã xóa lịch sử.', 'success'); });
   dom.historyList.addEventListener('click', async e => {
     const btn = e.target.closest('button[data-action]'); if(!btn) return;
@@ -614,8 +713,8 @@ function bindEvents(){
 }
 
 (function init(){
-  loadSettings(); updateSliderLabels(); renderTags(); bindEvents(); updateCharCount(); renderKeyStatus(); renderLogs(); renderHistory(); updateStats();
-  if(!readJSON('logs', []).length) log('Workspace đã khởi động. Nhập API key để bắt đầu.', 'success');
+  loadSettings(); updateSliderLabels(); renderTags(); bindEvents(); updateCharCount(); renderKeyStatus(); renderHistory(); updateStats();
+  log('Workspace đã khởi động. Nhập API key để bắt đầu.', 'success');
 })();
 </script>
 </body>
