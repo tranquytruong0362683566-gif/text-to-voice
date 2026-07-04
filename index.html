@@ -3,205 +3,124 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ElevenLabs TTS · Adam v3</title>
+<title>GhostSec Voice Console · Adam v3</title>
 <style>
 :root{
-  --bg:#f4f5f8;--surface:#fff;--surface-2:#fafbfc;--line:#e5e7eb;
-  --text:#111827;--muted:#6b7280;
-  --accent:#4f46e5;--accent-2:#6366f1;--accent-soft:#eef2ff;
-  --ok:#16a34a;--ok-soft:#f0fdf4;
-  --danger:#dc2626;--danger-soft:#fef2f2;
-  --warn:#b45309;--warn-soft:#fffbeb;
-  --r:14px;--r-sm:10px;
-  --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.05);
-  --shadow-lg:0 8px 30px rgba(16,24,40,.12);
-  --ring:0 0 0 3px var(--accent-soft);
+  --bg:#010204;
+  --bg2:#020807;
+  --card:rgba(3,14,12,.74);
+  --card2:rgba(0,0,0,.42);
+  --line:rgba(0,255,148,.22);
+  --line2:rgba(0,255,148,.48);
+  --text:#dffff1;
+  --muted:#70aa91;
+  --dim:#3d725f;
+  --accent:#00ff94;
+  --accent2:#00d9ff;
+  --danger:#ff3b6b;
+  --warn:#ffd166;
+  --ok:#00ff94;
+  --shadow:0 30px 120px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.045);
+  --radius:22px;
   --font:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-}
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#0b0d12;--surface:#151922;--surface-2:#1a1f2a;--line:#252b38;
-    --text:#e7eaf0;--muted:#8b93a5;--accent-soft:#1e2140;
-    --ok-soft:#0f2417;--danger-soft:#2a1414;--warn-soft:#2a2110;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
-    --shadow-lg:0 8px 30px rgba(0,0,0,.5);
-  }
+  --mono:Consolas,"SFMono-Regular","Cascadia Mono",Menlo,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1200px 500px at 80% -10%,var(--accent-soft),transparent 60%)}
+html{background:#000;color-scheme:dark}
+body{min-height:100vh;overflow-x:hidden;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55}
 button,input,textarea,select{font:inherit;color:inherit}
 button{border:0;cursor:pointer;background:none}
-.hidden{display:none!important}
-.mono{font-family:Consolas,"SFMono-Regular",ui-monospace,monospace}
-:focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
-
-*::-webkit-scrollbar{width:8px;height:8px}
-*::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
-*::-webkit-scrollbar-thumb:hover{background:var(--muted)}
-
-.shell{max-width:1140px;margin:0 auto;padding:28px 20px 56px}
-
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.brand{display:flex;align-items:center;gap:13px}
-.brand-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;box-shadow:0 6px 18px rgba(79,70,229,.35)}
-.brand h1{font-size:17px;font-weight:800;letter-spacing:-.01em}
-.brand p{font-size:12px;color:var(--muted)}
-.top-meta{font-size:12px;color:var(--muted);text-align:right;line-height:1.7}
-.top-meta b{color:var(--text);font-weight:600}
-
-.layout{display:grid;grid-template-columns:330px 1fr;gap:22px;align-items:start}
-aside{position:sticky;top:20px}
-
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);animation:rise .4s ease both}
-.panel + .panel{margin-top:16px}
-@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-.panel-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:800}
-.help{display:block;font-size:11.5px;color:var(--muted);margin-top:6px}
-
-.ghost{height:32px;padding:0 13px;border-radius:9px;border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);transition:.15s}
-.ghost:hover{border-color:var(--text);color:var(--text);transform:translateY(-1px)}
-.ghost:active{transform:translateY(0)}
-.ghost.danger:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
-.ghost.ok{color:var(--ok);border-color:var(--ok)}
-.ghost.ok:hover{background:var(--ok-soft)}
-
-textarea.input,input.input,select.input{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:11px 13px;outline:0;transition:.15s;color:var(--text)}
-textarea.input:focus,input.input:focus,select.input:focus{border-color:var(--accent);box-shadow:var(--ring);background:var(--surface)}
-textarea.input{resize:vertical;min-height:92px}
-.api-area.masked{-webkit-text-security:disc;letter-spacing:1px}
-
-.api-status{display:grid;gap:6px;max-height:160px;overflow:auto;margin-top:10px}
-.key-row{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:7px 9px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2)}
-.key-num{width:20px;height:20px;border-radius:999px;background:var(--bg);display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--muted)}
-.key-preview{font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--muted)}
-.badge.active{background:var(--ok-soft);color:var(--ok)}
-.badge.fail{background:var(--danger-soft);color:var(--danger)}
-.badge.wait{background:var(--warn-soft);color:var(--warn)}
-
-.field{margin-bottom:16px}
-.field label{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:12px;color:var(--muted);font-weight:600}
-.value{font-size:12px;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 9px;font-weight:800}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;background:transparent;cursor:pointer;height:16px}
-input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:var(--line)}
-input[type=range]::-moz-range-track{height:5px;border-radius:999px;background:var(--line)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:999px;background:var(--accent);border:3px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25);margin-top:-6px;transition:.12s}
-input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:999px;background:var(--accent);border:3px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25)}
-input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.15)}
-.range-note{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px}
-.switch-row{display:flex;align-items:center;justify-content:space-between}
-.switch-row label{font-size:12px;color:var(--muted);font-weight:600}
-.switch{position:relative;width:42px;height:23px}
-.switch input{display:none}
-.slider{position:absolute;inset:0;background:var(--line);border-radius:999px;transition:.2s}
-.slider:before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;border-radius:999px;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.switch input:checked+.slider{background:var(--accent)}
-.switch input:checked+.slider:before{transform:translateX(19px)}
-
-.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:10px}
-.counter{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.counter.over{color:var(--danger);font-weight:700}
-.script{min-height:190px;font-size:15px;line-height:1.7}
-
-.tag-bank{display:flex;flex-direction:column;gap:9px;max-height:340px;overflow:auto}
-.tag-folder{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;background:var(--surface-2)}
-.tag-folder[open]{border-color:var(--accent)}
-.tag-folder-toggle{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;cursor:pointer;transition:.12s}
-.tag-folder-toggle:hover{background:var(--accent-soft)}
-.tag-folder-toggle::-webkit-details-marker{display:none}
-.tag-folder-title{display:flex;flex-direction:column;font-size:12.5px;font-weight:700}
-.tag-folder-title small{font-size:11px;font-weight:500;color:var(--muted)}
-.tag-count{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
-.tag-folder-body{display:flex;flex-direction:column;gap:11px;padding:0 13px 13px}
-.tag-subgroup{border-top:1px solid var(--line);padding-top:11px}
-.tag-subtitle{font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:var(--muted);margin-bottom:7px}
-.tag-grid{display:flex;flex-wrap:wrap;gap:6px}
-.tag{border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:11.5px;font-weight:600;color:var(--muted);background:var(--surface);transition:.12s}
-.tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
-.tag:active{transform:translateY(0)}
-.tag small{font-weight:500;margin-left:4px;opacity:.8}
-
-.primary{width:100%;height:50px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-size:14.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:16px;box-shadow:0 6px 18px rgba(79,70,229,.35);transition:.15s}
-.primary:hover:not(:disabled){filter:brightness(1.07);transform:translateY(-1px);box-shadow:0 10px 24px rgba(79,70,229,.45)}
-.primary:active:not(:disabled){transform:translateY(0)}
-.primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.player-card{margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2);animation:rise .3s ease both}
-.player-meta h3{font-size:13px;font-weight:700}
-.player-meta p{font-size:11.5px;color:var(--muted)}
-audio{width:100%;height:40px;margin-top:10px}
-.download-now{margin-top:10px;height:38px;width:100%;border-radius:9px;background:var(--ok-soft);color:var(--ok);font-size:12.5px;font-weight:700;border:1px solid transparent;transition:.15s}
-.download-now:hover{border-color:var(--ok)}
-
-.history-list{display:flex;flex-direction:column;gap:9px;max-height:360px;overflow:auto}
-.empty{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 14px;border:1px dashed var(--line);border-radius:var(--r-sm)}
-.hist{border:1px solid var(--line);border-radius:var(--r-sm);padding:11px;background:var(--surface-2);transition:.12s}
-.hist:hover{border-color:var(--accent);box-shadow:var(--shadow)}
-.hist-top{margin-bottom:9px}
-.hist-title{font-size:12.5px;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.hist-time{font-size:10.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
-.hist-actions{display:grid;grid-template-columns:1fr 1fr 34px;gap:6px}
-.hist-actions button{height:31px;border-radius:8px;background:var(--surface);border:1px solid var(--line);font-size:11.5px;font-weight:600;color:var(--muted);transition:.12s}
-.hist-actions button:hover{border-color:var(--text);color:var(--text)}
-.hist-actions button.delete:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
-
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(0);z-index:50;border-radius:999px;padding:12px 20px;font-size:13px;font-weight:600;background:var(--text);color:var(--surface);max-width:min(640px,calc(100vw - 32px));text-align:center;box-shadow:var(--shadow-lg);animation:toastIn .25s ease}
-@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.toast.ok{background:#14532d;color:#fff}
-.toast.err{background:#7f1d1d;color:#fff}
-.toast.warn{background:#78350f;color:#fff}
-
-@media(max-width:900px){
-  .layout{grid-template-columns:1fr}
-  aside{position:static}
-  .top-meta{display:none}
-  .shell{padding:20px 14px 40px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hidden{display:none!important}.mono{font-family:var(--mono)}
+#matrixRain{position:fixed;inset:0;width:100vw;height:100vh;z-index:-4;background:#000}
+.bg-vignette{position:fixed;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(circle at 50% 8%,rgba(0,217,255,.18),transparent 33%),radial-gradient(circle at 9% 22%,rgba(0,255,148,.14),transparent 34%),radial-gradient(circle at 91% 78%,rgba(255,59,107,.10),transparent 32%),linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.84) 72%,#000)}
+.bg-scan{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.55;background:linear-gradient(rgba(0,255,148,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,148,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.28))}
+.bg-scan::before{content:"";position:absolute;inset:-20% 0;background:linear-gradient(to bottom,transparent,rgba(0,255,148,.12),transparent);animation:scan 5.5s linear infinite}
+.bg-scan::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);mix-blend-mode:screen;opacity:.6}
+@keyframes scan{from{transform:translateY(-45%)}to{transform:translateY(65%)}}
+.shell{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:24px 18px 58px}
+.command-strip{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:rgba(0,255,148,.72);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.command-strip span{position:relative;padding-left:16px}.command-strip span::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);transform:translateY(-50%);animation:blink 1.2s steps(2,end) infinite}
+@keyframes blink{50%{opacity:.18}}
+.topbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;padding:16px 18px;border:1px solid var(--line2);border-radius:28px;background:linear-gradient(180deg,rgba(1,18,15,.86),rgba(0,0,0,.58));box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}
+.topbar::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(0,255,148,.09),transparent);transform:translateX(-100%);animation:shine 6s ease-in-out infinite}
+@keyframes shine{0%,42%{transform:translateX(-100%)}72%,100%{transform:translateX(100%)}}
+.brand{display:flex;align-items:center;gap:14px;min-width:0;position:relative;z-index:1}
+.brand-icon{width:50px;height:50px;border-radius:18px;border:1px solid rgba(0,255,148,.42);display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,rgba(0,255,148,.45),rgba(0,0,0,.36) 58%);box-shadow:0 0 36px rgba(0,255,148,.24),inset 0 0 24px rgba(0,255,148,.13);position:relative;overflow:hidden}
+.brand-icon::before{content:"";position:absolute;inset:9px;border:1px solid rgba(0,217,255,.45);border-radius:50%;animation:rotate 9s linear infinite}.brand-icon::after{content:"";position:absolute;width:74%;height:1px;background:rgba(0,255,148,.5);box-shadow:0 0 18px var(--accent);animation:radar 2.3s ease-in-out infinite}
+@keyframes rotate{to{transform:rotate(360deg)}}@keyframes radar{0%,100%{transform:translateY(-16px);opacity:.2}50%{transform:translateY(16px);opacity:.9}}
+.brand-icon svg{position:relative;z-index:2;filter:drop-shadow(0 0 10px rgba(0,255,148,.75))}.brand h1{font-size:19px;font-weight:950;letter-spacing:.045em;text-transform:uppercase;text-shadow:0 0 22px rgba(0,255,148,.24)}.brand p{font:12px var(--mono);color:var(--muted);letter-spacing:.04em}.brand p b{color:var(--accent);font-weight:800}
+.top-actions{display:flex;align-items:center;gap:10px;position:relative;z-index:1}.status-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{height:32px;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.3);font:11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.pill i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.settings-btn,.icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:16px;border:1px solid var(--line2);background:rgba(0,255,148,.08);color:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 24px rgba(0,255,148,.08);transition:.14s ease}.settings-btn:hover,.icon-btn:hover{transform:translateY(-1px) scale(1.02);background:rgba(0,255,148,.15);box-shadow:0 0 28px rgba(0,255,148,.20)}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:18px;align-items:start}.stack{display:grid;gap:18px}.panel{position:relative;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(3,18,15,.77),rgba(0,0,0,.48));box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow:hidden}.panel::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);opacity:.95}.panel.pad{padding:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;position:relative;z-index:1}.panel-title{font:800 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);text-shadow:0 0 18px rgba(0,255,148,.28)}.panel-sub{font-size:12px;color:var(--muted)}
+.hero{min-height:220px;padding:20px;display:grid;grid-template-columns:1fr 270px;gap:18px;align-items:stretch}.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 40%,rgba(0,217,255,.12),transparent 34%),linear-gradient(120deg,transparent,rgba(0,255,148,.045),transparent);pointer-events:none}.hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:18px}.overline{font:800 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent2)}.hero h2{font-size:clamp(28px,5vw,58px);line-height:.92;letter-spacing:-.05em;text-transform:uppercase;text-shadow:0 0 35px rgba(0,255,148,.2)}.hero h2 span{color:var(--accent);display:block}.hero p{max-width:720px;color:var(--muted);font-size:14px}.metric-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.metric{border:1px solid var(--line);border-radius:16px;padding:10px;background:rgba(0,0,0,.28)}.metric b{display:block;font:900 18px var(--mono);color:var(--accent)}.metric span{font:11px var(--mono);color:var(--muted);text-transform:uppercase}.terminal{position:relative;z-index:1;border:1px solid rgba(0,255,148,.34);border-radius:18px;background:rgba(0,0,0,.62);overflow:hidden;box-shadow:inset 0 0 32px rgba(0,255,148,.045)}.terminal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(0,255,148,.06);font:11px var(--mono);color:var(--muted)}.dots{display:flex;gap:6px}.dots i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.dots i:nth-child(2){background:var(--warn);box-shadow:0 0 10px var(--warn)}.dots i:nth-child(3){background:var(--danger);box-shadow:0 0 10px var(--danger)}.terminal-body{height:158px;padding:12px;font:12px/1.55 var(--mono);color:rgba(0,255,148,.82);overflow:hidden}.terminal-line{white-space:nowrap}.cursor::after{content:"█";margin-left:4px;animation:blink .8s steps(2,end) infinite;color:var(--accent2)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:10px}.counter{font:12px var(--mono);color:var(--muted)}.counter.over{color:var(--danger)}.ghost{height:34px;padding:0 12px;border-radius:12px;border:1px solid var(--line);font:800 12px var(--mono);color:var(--muted);background:rgba(0,0,0,.28);transition:.14s ease}.ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,255,148,.10)}.ghost.danger:hover{border-color:var(--danger);color:var(--danger);background:rgba(255,59,107,.10)}.ghost.ok{border-color:rgba(0,255,148,.55);color:var(--accent)}
+textarea.input,input.input,select.input{width:100%;border:1px solid var(--line);border-radius:18px;background:rgba(0,0,0,.46);color:var(--text);padding:13px 14px;outline:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:.14s ease}textarea.input::placeholder,input.input::placeholder{color:rgba(112,170,145,.62)}textarea.input:focus,input.input:focus,select.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,148,.11),0 0 34px rgba(0,255,148,.06) inset}textarea.input{resize:vertical}.script{min-height:205px;font:15px/1.7 var(--mono);caret-color:var(--accent)}select.input option{background:#020807;color:var(--text)}.api-area{min-height:154px}.api-area.masked{-webkit-text-security:disc;letter-spacing:1px}
+.primary{width:100%;height:56px;margin-top:14px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00130b;font:950 14px var(--mono);letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 18px 48px rgba(0,255,148,.17),0 0 34px rgba(0,217,255,.12);transition:.16s ease}.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:not-allowed;transform:none}.spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.28);border-top-color:#00130b;border-radius:50%;animation:spin .65s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.player-card{margin-top:14px;border:1px solid var(--line);border-radius:18px;padding:12px;background:rgba(0,0,0,.3)}.player-meta h3{font-size:13px;font-weight:900;color:var(--accent)}.player-meta p{font:11.5px var(--mono);color:var(--muted);margin-top:2px}audio{width:100%;height:38px;margin-top:10px;filter:drop-shadow(0 14px 28px rgba(0,0,0,.4))}.download-now{margin-top:10px;width:100%;height:38px;border-radius:13px;border:1px solid rgba(0,255,148,.32);background:rgba(0,255,148,.10);color:var(--accent);font:900 12px var(--mono)}.download-now:hover{background:rgba(0,255,148,.16)}
+.tag-bank{display:flex;flex-direction:column;gap:10px;max-height:455px;overflow:auto}.tag-folder{border:1px solid var(--line);border-radius:18px;background:rgba(0,0,0,.26);overflow:hidden}.tag-folder-toggle{list-style:none;padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;background:linear-gradient(90deg,rgba(0,255,148,.1),rgba(0,217,255,.045))}.tag-folder-toggle::-webkit-details-marker{display:none}.tag-folder-title{display:flex;flex-direction:column;font-size:13px;font-weight:900;color:var(--text)}.tag-folder-title small{font:11px var(--mono);color:var(--muted);font-weight:500}.tag-count{font:900 10.5px var(--mono);white-space:nowrap;border:1px solid rgba(0,255,148,.25);border-radius:999px;padding:4px 9px;background:rgba(0,255,148,.1);color:var(--accent)}.tag-folder-body{display:flex;flex-direction:column;gap:12px;padding:0 13px 13px}.tag-subgroup{border-top:1px solid var(--line);padding-top:12px}.tag-subtitle{font:900 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px}.tag-grid{display:flex;flex-wrap:wrap;gap:7px}.tag{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font:800 11.5px var(--mono);color:var(--muted);background:rgba(0,0,0,.28);transition:.12s ease}.tag:hover{transform:translateY(-1px);border-color:var(--accent);color:var(--accent);background:rgba(0,255,148,.11);box-shadow:0 0 22px rgba(0,255,148,.14)}.tag small{margin-left:4px;color:rgba(112,170,145,.86);font-weight:600}
+.history-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto}.empty{text-align:center;color:var(--muted);font:12.5px var(--mono);padding:22px 14px;border:1px dashed var(--line);border-radius:16px;background:rgba(0,0,0,.22)}.hist{border:1px solid var(--line);border-radius:16px;padding:11px;background:rgba(0,0,0,.26)}.hist-title{font-size:12.5px;font-weight:750;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hist-time{font:10.5px var(--mono);color:var(--muted);margin:4px 0 9px}.hist-actions{display:grid;grid-template-columns:1fr 1fr 34px;gap:6px}.hist-actions button{height:32px;border-radius:11px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--muted);font:800 11.5px var(--mono)}.hist-actions button:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,255,148,.1)}.hist-actions button.delete:hover{border-color:var(--danger);color:var(--danger);background:rgba(255,59,107,.1)}
+.progress-shell{height:10px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.32);overflow:hidden}.progress-bar{height:100%;width:34%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 20px rgba(0,255,148,.55);animation:breach 3.2s ease-in-out infinite}@keyframes breach{0%,100%{width:27%}50%{width:92%}}.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.mini-card{border:1px solid var(--line);border-radius:16px;padding:11px;background:rgba(0,0,0,.26)}.mini-card span{display:block;font:10.5px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.mini-card b{font:900 18px var(--mono);color:var(--accent)}
+.api-drawer-overlay{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.66);backdrop-filter:blur(10px)}.api-drawer{position:fixed;right:18px;top:18px;bottom:18px;z-index:45;width:min(460px,calc(100vw - 36px));padding:18px;border:1px solid var(--line2);border-radius:26px;background:linear-gradient(180deg,rgba(1,18,15,.98),rgba(0,0,0,.96));box-shadow:0 30px 140px rgba(0,0,0,.82),0 0 70px rgba(0,255,148,.13);overflow:auto;animation:drawerIn .18s ease-out}@keyframes drawerIn{from{transform:translateX(20px);opacity:.35}to{transform:translateX(0);opacity:1}}.api-drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.api-drawer-head p{font:12px var(--mono);color:var(--muted);margin-top:4px}.drawer-section{border:1px solid var(--line);border-radius:20px;background:rgba(0,0,0,.28);padding:14px;margin-top:12px}.api-status{display:grid;gap:7px;max-height:210px;overflow:auto;margin-top:12px}.key-row{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;padding:8px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.26)}.key-num{width:22px;height:22px;border-radius:999px;background:rgba(0,255,148,.1);display:grid;place-items:center;font:900 10.5px var(--mono);color:var(--accent)}.key-preview{font:11.5px var(--mono);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.badge{font:900 10.5px var(--mono);border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid transparent}.badge.active{background:rgba(0,255,148,.1);color:var(--accent);border-color:rgba(0,255,148,.28)}.badge.fail{background:rgba(255,59,107,.1);color:var(--danger);border-color:rgba(255,59,107,.28)}.badge.wait{background:rgba(255,209,102,.1);color:var(--warn);border-color:rgba(255,209,102,.22)}.voice-secret{margin-top:12px;border:1px solid var(--line);border-radius:18px;background:rgba(0,0,0,.22);overflow:hidden}.voice-secret summary{list-style:none;padding:13px 14px;cursor:pointer;font:900 12px var(--mono);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}.voice-secret summary::-webkit-details-marker{display:none}.voice-secret summary::after{content:"▾";color:var(--muted)}.voice-secret[open] summary::after{content:"▴"}.voice-body{padding:0 14px 14px}.field{margin-bottom:14px}.field label{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px;font:800 12px var(--mono);color:var(--muted)}.value{font:900 12px var(--mono);padding:2px 8px;border-radius:8px;border:1px solid rgba(0,255,148,.24);background:rgba(0,255,148,.1);color:var(--accent)}input[type=range]{-webkit-appearance:none;width:100%;background:transparent}input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2),rgba(255,255,255,.14))}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:999px;background:#00130b;border:2px solid var(--accent);margin-top:-6px;box-shadow:0 0 18px rgba(0,255,148,.48)}.range-note{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--dim);margin-top:5px}.switch-row{display:flex;align-items:center;justify-content:space-between}.switch-row label{font:800 12px var(--mono);color:var(--muted)}.switch{position:relative;width:42px;height:24px}.switch input{display:none}.slider{position:absolute;inset:0;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.08);transition:.15s}.slider::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:999px;background:#dffff1;transition:.15s}.switch input:checked+.slider{background:rgba(0,255,148,.16);border-color:rgba(0,255,148,.55)}.switch input:checked+.slider::before{transform:translateX(18px);background:var(--accent);box-shadow:0 0 14px var(--accent)}.help{display:block;font:11.5px var(--mono);color:var(--muted);margin-top:6px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:70;max-width:min(660px,calc(100vw - 32px));border-radius:999px;padding:12px 18px;border:1px solid var(--line2);background:#020807;color:var(--text);font:800 13px var(--mono);box-shadow:0 22px 60px rgba(0,0,0,.66);text-align:center}.toast.ok{color:var(--accent)}.toast.err{color:#ff89a1}.toast.warn{color:#ffe099}
+@media(max-width:980px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.status-pills{display:none}.terminal-body{height:140px}}@media(max-width:620px){.shell{padding:16px 12px 44px}.topbar{border-radius:22px}.brand h1{font-size:15px}.brand p{font-size:10.5px}.brand-icon{width:44px;height:44px}.hero{padding:16px}.metric-row,.mini-grid{grid-template-columns:1fr}.toolbar-left,.toolbar-right{width:100%;justify-content:space-between}.api-drawer{inset:10px;width:auto;border-radius:22px}.script{min-height:170px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}#matrixRain{display:none}}
 </style>
 </head>
 <body>
+<canvas id="matrixRain" aria-hidden="true"></canvas>
+<div class="bg-vignette" aria-hidden="true"></div>
+<div class="bg-scan" aria-hidden="true"></div>
 <div class="shell">
+  <div class="command-strip"><span>security uplink online</span><span>voice payload encrypted</span><span>ghost console v3</span></div>
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 9v6M9 5v14M13 8v8M17 3v18M21 10v4" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 7v5c0 4.8 3 7.7 7 9 4-1.3 7-4.2 7-9V7l-7-4Z" stroke="currentColor" stroke-width="2"/><path d="M8.5 12.2 11 14.7l4.7-5.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div>
-        <h1>ElevenLabs TTS</h1>
-        <p>Adam · Eleven v3 · tự chuyển key khi lỗi</p>
+        <h1>GhostSec Voice Console</h1>
+        <p>Adam <b>v3</b> · Human reaction tags · Auto key fallback</p>
       </div>
     </div>
-    <div class="top-meta">
-      <div>Voice <b class="mono">pNInz6ob…aJgB</b></div>
-      <div>Model <b class="mono">eleven_v3</b></div>
+    <div class="top-actions">
+      <div class="status-pills">
+        <div class="pill"><i></i>model eleven_v3</div>
+        <div class="pill"><i></i>voice pNInz6ob</div>
+        <div class="pill"><i></i>stealth ui</div>
+      </div>
+      <button class="settings-btn" id="openSettingsBtn" type="button" aria-label="Mở API và cài đặt giọng" title="API & Voice Settings">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15.4a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8Z" stroke="currentColor" stroke-width="2"/><path d="M19.5 15a1.8 1.8 0 0 0 .35 1.95l.03.03a2.05 2.05 0 0 1-2.9 2.9l-.03-.03A1.8 1.8 0 0 0 15 19.5a1.8 1.8 0 0 0-1.08 1.65V21a1.92 1.92 0 0 1-3.84 0v-.15A1.8 1.8 0 0 0 9 19.5a1.8 1.8 0 0 0-1.95.35l-.03.03a2.05 2.05 0 0 1-2.9-2.9l.03-.03A1.8 1.8 0 0 0 4.5 15a1.8 1.8 0 0 0-1.65-1.08H2.7a1.92 1.92 0 0 1 0-3.84h.15A1.8 1.8 0 0 0 4.5 9a1.8 1.8 0 0 0-.35-1.95l-.03-.03a2.05 2.05 0 0 1 2.9-2.9l.03.03A1.8 1.8 0 0 0 9 4.5a1.8 1.8 0 0 0 1.08-1.65V2.7a1.92 1.92 0 0 1 3.84 0v.15A1.8 1.8 0 0 0 15 4.5a1.8 1.8 0 0 0 1.95-.35l.03-.03a2.05 2.05 0 0 1 2.9 2.9l-.03.03A1.8 1.8 0 0 0 19.5 9a1.8 1.8 0 0 0 1.65 1.08h.15a1.92 1.92 0 0 1 0 3.84h-.15A1.8 1.8 0 0 0 19.5 15Z" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </header>
 
-  <main class="layout">
-    <aside>
-      <section class="panel">
-        <div class="panel-head">
-          <span class="panel-title">API keys</span>
-          <div style="display:flex;gap:6px">
-            <button class="ghost" id="toggleMaskBtn" type="button">Hiện</button>
-            <button class="ghost ok" id="saveKeysBtn" type="button">Lưu</button>
-          </div>
+  <div class="api-drawer-overlay hidden" id="apiOverlay"></div>
+  <aside class="api-drawer hidden" id="apiDrawer" role="dialog" aria-modal="true" aria-labelledby="apiDrawerTitle">
+    <div class="api-drawer-head">
+      <div>
+        <span class="panel-title" id="apiDrawerTitle">Hidden Control Room</span>
+        <p>API key và cài đặt giọng đã được giấu vào khoang kỹ thuật để giao diện chính sạch hơn.</p>
+      </div>
+      <button class="icon-btn" id="closeSettingsBtn" type="button" aria-label="Đóng cài đặt">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <section class="drawer-section">
+      <div class="panel-head">
+        <span class="panel-title">API Vault</span>
+        <div style="display:flex;gap:6px">
+          <button class="ghost" id="toggleMaskBtn" type="button">Hiện</button>
+          <button class="ghost ok" id="saveKeysBtn" type="button">Lưu</button>
         </div>
-        <textarea id="apiKeys" class="input api-area masked mono" spellcheck="false" placeholder="Mỗi API key một dòng"></textarea>
-        <span class="help">Dùng key từ trên xuống, tự chuyển khi hết quota / lỗi.</span>
-        <div class="api-status" id="keyStatus"></div>
-      </section>
+      </div>
+      <textarea id="apiKeys" class="input api-area masked mono" spellcheck="false" placeholder="sk_...&#10;sk_...&#10;sk_..."></textarea>
+      <span class="help">Mỗi API key một dòng. Tự đổi key khi hết quota / lỗi quyền / rate limit.</span>
+      <div class="api-status" id="keyStatus"></div>
+    </section>
 
-      <section class="panel">
-        <div class="panel-head"><span class="panel-title">Voice settings</span></div>
+    <details class="voice-secret">
+      <summary>Voice Settings ẩn</summary>
+      <div class="voice-body">
         <div class="field">
           <label for="stability">Stability <span class="value" id="stabilityVal">0.50</span></label>
           <input id="stability" type="range" min="0" max="1" step="0.01" value="0.50" />
@@ -235,26 +154,45 @@ audio{width:100%;height:40px;margin-top:10px}
             <option value="mp3_44100_192">MP3 44.1kHz 192kbps</option>
           </select>
         </div>
-      </section>
-    </aside>
+      </div>
+    </details>
+  </aside>
 
-    <section>
-      <section class="panel">
+  <main class="grid">
+    <section class="stack">
+      <section class="panel hero">
+        <div class="hero-copy">
+          <div>
+            <div class="overline">Accessing restricted voice node...</div>
+            <h2>BLACK OPS <span>TTS ENGINE</span></h2>
+            <p>Giao diện tập trung vào một việc: nhập kịch bản, gắn phản ứng người thật, tạo audio Adam v3 thật nhanh. Toàn bộ API và cài đặt giọng đã ẩn vào bánh răng.</p>
+          </div>
+          <div class="metric-row">
+            <div class="metric"><b id="lockState">ARMED</b><span>security layer</span></div>
+            <div class="metric"><b id="packetLoad">27</b><span>reaction tags</span></div>
+            <div class="metric"><b id="netSpeed">AUTO</b><span>key fallback</span></div>
+          </div>
+        </div>
+        <div class="terminal">
+          <div class="terminal-head"><span>root@ghostsec:/voice/init</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="terminal-body" id="terminalStream"></div>
+        </div>
+      </section>
+
+      <section class="panel pad">
         <div class="toolbar">
-          <div class="toolbar-left"><span class="panel-title">Văn bản</span><span class="counter" id="charCount">0 / 5000</span></div>
+          <div class="toolbar-left"><span class="panel-title">Payload Text</span><span class="counter" id="charCount">0 / 5000</span></div>
           <div class="toolbar-right">
             <button class="ghost" id="pasteBtn" type="button">Dán</button>
             <button class="ghost danger" id="clearTextBtn" type="button">Xóa</button>
           </div>
         </div>
-        <textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản. Dùng tag như [happy], [laughs], [whispering] để diễn cảm hơn..."></textarea>
-
+        <textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản. Bấm tag như [laughs], [sighs], [pause] để thêm phản ứng người thật..."></textarea>
         <button class="primary" id="generateBtn" type="button">
-          <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           <span id="spin" class="spinner hidden"></span>
-          <span id="generateLabel">Tạo giọng nói</span>
+          <span id="generateLabel">Initiate Voice Render</span>
         </button>
-
         <div class="player-card hidden" id="playerCard">
           <div class="player-meta">
             <h3>Audio vừa tạo</h3>
@@ -264,18 +202,27 @@ audio{width:100%;height:40px;margin-top:10px}
           <button class="download-now" id="downloadLastBtn" type="button">Tải MP3</button>
         </div>
       </section>
+    </section>
 
-      <section class="panel">
-        <div class="panel-head"><span class="panel-title">Tag cảm xúc v3</span><span class="help" style="margin:0">bấm tag để chèn</span></div>
+    <aside class="stack">
+      <section class="panel pad">
+        <div class="panel-head"><span class="panel-title">Security Loader</span><span class="panel-sub">live</span></div>
+        <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="mini-grid" style="margin-top:12px">
+          <div class="mini-card"><span>signal</span><b>98%</b></div>
+          <div class="mini-card"><span>trace</span><b>0.03</b></div>
+        </div>
+      </section>
+      <section class="panel pad">
+        <div class="panel-head"><span class="panel-title">Phản ứng người thật / âm thanh miệng</span><span class="panel-sub">27 tag</span></div>
         <div class="tag-bank" id="tagBank"></div>
       </section>
-
-      <section class="panel">
+      <section class="panel pad">
         <div class="panel-head"><span class="panel-title">Lịch sử</span><button class="ghost danger" id="clearHistoryBtn" type="button">Xóa hết</button></div>
         <div class="history-list" id="historyList"></div>
         <div class="empty hidden" id="historyEmpty">Chưa có audio nào.</div>
       </section>
-    </section>
+    </aside>
   </main>
 </div>
 <div id="toast" class="toast hidden"></div>
@@ -298,6 +245,7 @@ const AUDIO_STORE = 'audios';
 
 const $ = (id) => document.getElementById(id);
 const dom = {
+  openSettingsBtn: $('openSettingsBtn'), closeSettingsBtn: $('closeSettingsBtn'), apiOverlay: $('apiOverlay'), apiDrawer: $('apiDrawer'),
   apiKeys: $('apiKeys'), toggleMaskBtn: $('toggleMaskBtn'), saveKeysBtn: $('saveKeysBtn'), keyStatus: $('keyStatus'),
   stability: $('stability'), stabilityVal: $('stabilityVal'), similarity: $('similarity'), similarityVal: $('similarityVal'),
   style: $('style'), styleVal: $('styleVal'), speed: $('speed'), speedVal: $('speedVal'), speakerBoost: $('speakerBoost'),
@@ -311,7 +259,7 @@ const dom = {
 const TAG_GROUPS = [
   {
     title: 'Phản ứng người thật / âm thanh miệng',
-    desc: 'Tiếng cười, hơi thở, ngắt nhịp, phản ứng tự nhiên.',
+    desc: '27 tag tự nhiên: tiếng cười, hơi thở, ngắt nhịp và phản ứng miệng.',
     children: [
       {
         title: 'Cười & phản ứng',
@@ -338,69 +286,6 @@ const TAG_GROUPS = [
         ]
       }
     ]
-  },
-  {
-    title: 'Cách nói / tone / diễn xuất',
-    desc: 'Điều khiển âm lượng, tốc độ, nhấn nhá và kiểu biểu diễn.',
-    children: [
-      {
-        title: 'Âm lượng & năng lượng',
-        tags: [
-          ['[whispers]', 'thì thầm'], ['[whispering]', 'đang thì thầm'], ['[shouts]', 'hét'],
-          ['[shouting]', 'đang hét'], ['[quietly]', 'nói nhỏ'], ['[loudly]', 'nói to']
-        ]
-      },
-      {
-        title: 'Tốc độ & nhịp nói',
-        tags: [
-          ['[slow]', 'chậm'], ['[slowly]', 'nói chậm'], ['[slows down]', 'chậm dần'],
-          ['[rushed]', 'nói vội'], ['[rapid-fire]', 'nói dồn dập'], ['[deliberate]', 'rõ từng chữ'],
-          ['[drawn out]', 'kéo dài']
-        ]
-      },
-      {
-        title: 'Diễn xuất & chất giọng',
-        tags: [
-          ['[flatly]', 'giọng ngang'], ['[deadpan]', 'tỉnh bơ'], ['[dramatic tone]', 'kịch tính'],
-          ['[serious tone]', 'nghiêm túc'], ['[sarcastically]', 'mỉa mai'], ['[playfully]', 'tinh nghịch'],
-          ['[cheerfully]', 'vui vẻ'], ['[calmly]', 'điềm tĩnh'], ['[conversational tone]', 'tự nhiên'],
-          ['[robotic tone]', 'giọng robot'], ['[childlike tone]', 'trẻ con'], ['[suspicious tone]', 'nghi ngờ'],
-          ['[resigned tone]', 'cam chịu']
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Cảm xúc / trạng thái giọng',
-    desc: 'Đổi cảm xúc trực tiếp cho câu thoại hoặc đoạn ngắn.',
-    children: [
-      {
-        title: 'Cảm xúc cơ bản',
-        tags: [
-          ['[happy]', 'vui'], ['[sad]', 'buồn'], ['[angry]', 'giận'], ['[excited]', 'phấn khích'],
-          ['[nervous]', 'lo lắng'], ['[calm]', 'bình tĩnh'], ['[tired]', 'mệt mỏi'],
-          ['[surprised]', 'bất ngờ'], ['[disgusted]', 'ghê tởm']
-        ]
-      },
-      {
-        title: 'Kịch tính & xung đột',
-        tags: [
-          ['[frustrated]', 'bực bội'], ['[sorrowful]', 'đau buồn'], ['[annoyed]', 'khó chịu'],
-          ['[appalled]', 'kinh ngạc xấu'], ['[exasperated]', 'bất lực'], ['[sarcastic]', 'châm biếm'],
-          ['[mischievously]', 'tinh quái'], ['[regretful]', 'hối tiếc']
-        ]
-      },
-      {
-        title: 'Tinh tế & suy nghĩ',
-        tags: [
-          ['[thoughtful]', 'trầm tư'], ['[curious]', 'tò mò'], ['[hesitant]', 'ngập ngừng'],
-          ['[resigned]', 'cam chịu'], ['[awe]', 'choáng ngợp'], ['[elated]', 'hân hoan'],
-          ['[indecisive]', 'phân vân'], ['[quizzically]', 'ngờ vực'], ['[worried]', 'lo âu'],
-          ['[hopeful]', 'hy vọng'], ['[relieved]', 'nhẹ nhõm'], ['[disappointed]', 'thất vọng'],
-          ['[grateful]', 'biết ơn']
-        ]
-      }
-    ]
   }
 ];
 
@@ -409,7 +294,8 @@ let state = {
   failedKeys: readJSON('failedKeys', {}),
   successCount: Number(readLS('successCount') || 0),
   lastAudio: null,
-  toastTimer: null
+  toastTimer: null,
+  terminalTimer: null
 };
 
 function readLS(key){ try { return localStorage.getItem(STORE_PREFIX + key); } catch { return null; } }
@@ -422,7 +308,7 @@ function parseKeys(){ return dom.apiKeys.value.split(/\r?\n/).map(v => v.trim())
 function maskKey(key){ if(!key) return ''; if(key.length <= 12) return key[0] + '••••' + key.slice(-2); return key.slice(0,6) + '••••••••••••' + key.slice(-6); }
 function safeFileName(name){ return String(name || 'elevenlabs-audio').replace(/\[[^\]]*\]/g,'').replace(/[\\/:*?"<>|]+/g,'_').replace(/\s+/g,' ').trim().slice(0,120) || 'elevenlabs-audio'; }
 function nowLabel(){ return new Date().toLocaleString('vi-VN'); }
-function log(message,type='info'){ console[type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'info'](`[${type}] ${message}`); }
+function log(message,type='info'){ console[type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'info'](`[${type}] ${message}`); pushTerminal(message, type); }
 function toast(message,type='info'){ clearTimeout(state.toastTimer); dom.toast.textContent = message; dom.toast.className = `toast ${type === 'error' ? 'err' : type === 'success' ? 'ok' : type === 'warn' ? 'warn' : ''}`; dom.toast.classList.remove('hidden'); state.toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 3200); }
 
 function openDB(){
@@ -466,6 +352,7 @@ function updateSliderLabels(){
   dom.similarityVal.textContent = Number(dom.similarity.value).toFixed(2);
   dom.styleVal.textContent = Number(dom.style.value).toFixed(2);
   dom.speedVal.textContent = Number(dom.speed.value).toFixed(2);
+  saveSettings();
 }
 function resetKeyState(){
   state.activeKeyIndex = 0; state.failedKeys = {};
@@ -491,19 +378,22 @@ function renderKeyStatus(){
   });
   updateStats();
 }
-function updateStats(){ return true; }
+function updateStats(){
+  const lock = $('lockState');
+  const packet = $('packetLoad');
+  const net = $('netSpeed');
+  if(lock) lock.textContent = parseKeys().length ? 'ARMED' : 'LOCKED';
+  if(packet) packet.textContent = String(countTags(TAG_GROUPS[0].children));
+  if(net) net.textContent = parseKeys().length > 1 ? 'AUTO' : 'SOLO';
+}
 function updateCharCount(){
   const len = dom.textInput.value.length;
   dom.charCount.textContent = `${len} / ${CONFIG.maxChars}`;
   dom.charCount.classList.toggle('over', len > CONFIG.maxChars);
   writeLS('draftText', dom.textInput.value);
 }
-function countTags(children){
-  return children.reduce((total, child) => total + child.tags.length, 0);
-}
-function renderTagButtons(tags){
-  return tags.map(([tag, label]) => `<button class="tag" type="button" data-tag="${sanitizeText(tag)}"><span class="mono">${sanitizeText(tag)}</span><small>${sanitizeText(label)}</small></button>`).join('');
-}
+function countTags(children){ return children.reduce((total, child) => total + child.tags.length, 0); }
+function renderTagButtons(tags){ return tags.map(([tag, label]) => `<button class="tag" type="button" data-tag="${sanitizeText(tag)}"><span class="mono">${sanitizeText(tag)}</span><small>${sanitizeText(label)}</small></button>`).join(''); }
 function renderTags(){
   dom.tagBank.innerHTML = TAG_GROUPS.map((group, index) => {
     const children = group.children.map(child => `
@@ -531,7 +421,6 @@ function insertAtCursor(text){
   const pos = start + prefix.length + text.length + suffix.length;
   el.selectionStart = el.selectionEnd = pos; el.focus(); updateCharCount();
 }
-function renderLogs(){ return true; }
 function getHistory(){ return readJSON('history', []); }
 function setHistory(list){ writeJSON('history', list.slice(0, CONFIG.maxHistory)); }
 async function addHistory(blob, meta){
@@ -581,7 +470,7 @@ function setAudioPlayer(blob, meta){
 }
 function setLoading(on){
   dom.generateBtn.disabled = on; dom.playIcon.classList.toggle('hidden', on); dom.spin.classList.toggle('hidden', !on);
-  dom.generateLabel.textContent = on ? 'Đang tạo...' : 'Tạo giọng nói';
+  dom.generateLabel.textContent = on ? 'Rendering voice payload...' : 'Initiate Voice Render';
 }
 async function readErrorResponse(res){
   const contentType = res.headers.get('content-type') || '';
@@ -621,7 +510,7 @@ function buildPayload(text){
 async function generateAudio(){
   const text = dom.textInput.value.trim();
   const keys = parseKeys();
-  if(!keys.length){ toast('Hãy nhập ít nhất 1 API key.', 'error'); return; }
+  if(!keys.length){ toast('Hãy nhập ít nhất 1 API key trong bánh răng.', 'error'); return; }
   if(!text){ toast('Văn bản đang trống.', 'error'); return; }
   if(text.length > CONFIG.maxChars){ toast(`Nên giữ dưới ${CONFIG.maxChars} ký tự mỗi lần.`, 'error'); return; }
 
@@ -635,7 +524,7 @@ async function generateAudio(){
     for(let i = startIndex; i < keys.length; i++){
       if(state.failedKeys[i]) continue;
       state.activeKeyIndex = i; writeLS('activeKeyIndex', String(i)); renderKeyStatus();
-      log(`Đang gửi request bằng key #${i+1}...`);
+      log(`inject payload bằng key #${i+1}...`);
       const url = `${CONFIG.apiBase}${encodeURIComponent(CONFIG.voiceId)}?output_format=${encodeURIComponent(outputFormat)}`;
       let res;
       try {
@@ -673,7 +562,7 @@ async function generateAudio(){
       await dom.audioPlayer.play().catch(()=>{});
       state.successCount += 1; writeLS('successCount', String(state.successCount));
       state.activeKeyIndex = i; writeLS('activeKeyIndex', String(i)); renderKeyStatus(); updateStats();
-      log(`Tạo audio thành công bằng key #${i+1}.`, 'success');
+      log(`voice render thành công bằng key #${i+1}.`, 'success');
       toast('Tạo audio thành công.', 'success');
       return;
     }
@@ -684,9 +573,96 @@ async function generateAudio(){
   } finally { setLoading(false); }
 }
 
+function openApiDrawer(){
+  dom.apiOverlay.classList.remove('hidden');
+  dom.apiDrawer.classList.remove('hidden');
+  setTimeout(() => dom.apiKeys.focus(), 20);
+}
+function closeApiDrawer(){
+  dom.apiOverlay.classList.add('hidden');
+  dom.apiDrawer.classList.add('hidden');
+  dom.openSettingsBtn.focus();
+}
+
+function pushTerminal(message, type='info'){
+  const stream = $('terminalStream');
+  if(!stream) return;
+  const prefix = type === 'error' ? 'ERR' : type === 'warn' ? 'WRN' : type === 'success' ? 'OK ' : 'SYS';
+  const line = document.createElement('div');
+  line.className = 'terminal-line';
+  line.textContent = `[${prefix}] ${message}`;
+  stream.appendChild(line);
+  while(stream.children.length > 8) stream.removeChild(stream.firstChild);
+}
+function startTerminalFeed(){
+  const boot = [
+    'opening encrypted channel...',
+    'loading neural voice module...',
+    'bypassing visual noise filters...',
+    'mounting reaction tag bank: 27 entries',
+    'arming key fallback protocol...',
+    'security console ready.'
+  ];
+  let i = 0;
+  const stream = $('terminalStream');
+  if(!stream) return;
+  stream.innerHTML = '';
+  const tick = () => {
+    if(i < boot.length){ pushTerminal(boot[i], i === boot.length - 1 ? 'success' : 'info'); i += 1; }
+    else {
+      const probes = ['listening for payload...', 'matrix rain stable', 'watchdog heartbeat OK', 'audio cache standing by', 'stealth panel concealed'];
+      pushTerminal(probes[Math.floor(Math.random()*probes.length)], 'info');
+    }
+    state.terminalTimer = setTimeout(tick, i < boot.length ? 620 : 2600 + Math.random()*1800);
+  };
+  tick();
+}
+function startMatrixRain(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = $('matrixRain');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const chars = 'アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$#@%&<>[]{}()/\\|=+-*';
+  let columns = [];
+  let fontSize = 16;
+  function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(innerWidth * dpr);
+    canvas.height = Math.floor(innerHeight * dpr);
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    fontSize = innerWidth < 620 ? 13 : 16;
+    const count = Math.ceil(innerWidth / fontSize);
+    columns = Array.from({length:count}, () => Math.floor(Math.random() * innerHeight / fontSize));
+  }
+  function draw(){
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0,0,innerWidth,innerHeight);
+    ctx.font = `${fontSize}px Consolas, monospace`;
+    for(let i=0;i<columns.length;i++){
+      const text = chars[Math.floor(Math.random()*chars.length)];
+      const x = i * fontSize;
+      const y = columns[i] * fontSize;
+      ctx.fillStyle = Math.random() > .985 ? 'rgba(0,217,255,.95)' : 'rgba(0,255,148,.78)';
+      ctx.fillText(text, x, y);
+      if(y > innerHeight && Math.random() > .975) columns[i] = 0;
+      columns[i] += 1;
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+  requestAnimationFrame(draw);
+}
+
 function bindEvents(){
   dom.apiKeys.value = readLS('apiKeys') || '';
   dom.textInput.value = readLS('draftText') || '';
+  dom.openSettingsBtn.addEventListener('click', openApiDrawer);
+  dom.closeSettingsBtn.addEventListener('click', closeApiDrawer);
+  dom.apiOverlay.addEventListener('click', closeApiDrawer);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !dom.apiDrawer.classList.contains('hidden')) closeApiDrawer(); });
   ['stability','similarity','style','speed'].forEach(id => dom[id].addEventListener('input', updateSliderLabels));
   ['speakerBoost','outputFormat'].forEach(id => dom[id].addEventListener('change', saveSettings));
   dom.saveKeysBtn.addEventListener('click', saveKeys);
@@ -711,8 +687,8 @@ function bindEvents(){
 }
 
 (function init(){
-  loadSettings(); updateSliderLabels(); renderTags(); bindEvents(); updateCharCount(); renderKeyStatus(); renderHistory(); updateStats();
-  log('Workspace đã khởi động. Nhập API key để bắt đầu.', 'success');
+  loadSettings(); updateSliderLabels(); renderTags(); bindEvents(); updateCharCount(); renderKeyStatus(); renderHistory(); updateStats(); startMatrixRain(); startTerminalFeed();
+  log('console initialized. mở bánh răng để nhập API key.', 'success');
 })();
 </script>
 </body>
