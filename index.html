@@ -19,6 +19,9 @@
   --muted-2:#4e765f;
   --accent:#00ff88;
   --accent-2:#00c8ff;
+  --gold:#ffd166;
+  --violet:#8b5cf6;
+  --glass:rgba(255,255,255,.07);
   --danger:#ff3158;
   --warn:#ffd166;
   --ok:#00ff88;
@@ -34,10 +37,11 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   background:
-    radial-gradient(circle at 20% 0%,rgba(0,255,136,.13),transparent 34%),
-    radial-gradient(circle at 82% 16%,rgba(0,200,255,.10),transparent 30%),
-    radial-gradient(circle at 50% 100%,rgba(255,49,88,.08),transparent 35%),
-    linear-gradient(135deg,#010201 0%,#06110c 42%,#020605 100%);
+    radial-gradient(circle at 14% 8%,rgba(0,255,136,.18),transparent 30%),
+    radial-gradient(circle at 78% 6%,rgba(139,92,246,.18),transparent 32%),
+    radial-gradient(circle at 86% 58%,rgba(0,200,255,.12),transparent 28%),
+    radial-gradient(circle at 38% 100%,rgba(255,209,102,.09),transparent 31%),
+    linear-gradient(135deg,#010201 0%,#06110c 38%,#050817 72%,#020605 100%);
   color:var(--text);
   font-family:var(--font);
   line-height:1.55;
@@ -81,6 +85,10 @@ button{border:0;cursor:pointer;background:none}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
 ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.24);border:2px solid rgba(0,0,0,.2);border-radius:999px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(0,255,136,.42)}
+.ambient-orb{position:fixed;border-radius:999px;filter:blur(10px);opacity:.45;pointer-events:none;z-index:-1;animation:floatOrb 10s ease-in-out infinite alternate}
+.orb-a{width:260px;height:260px;left:-90px;top:130px;background:radial-gradient(circle,rgba(0,255,136,.24),transparent 68%)}
+.orb-b{width:340px;height:340px;right:-130px;top:20px;background:radial-gradient(circle,rgba(139,92,246,.24),transparent 68%);animation-delay:-3s}
+@keyframes floatOrb{to{transform:translate3d(24px,38px,0) scale(1.08)}}
 .shell{max-width:1280px;margin:0 auto;padding:26px 20px 46px;position:relative}
 .topbar{
   display:grid;
@@ -90,8 +98,8 @@ button{border:0;cursor:pointer;background:none}
   margin-bottom:22px;
   padding:18px;
   border:1px solid var(--line);
-  border-radius:24px;
-  background:linear-gradient(135deg,rgba(2,10,7,.86),rgba(5,24,16,.72));
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(2,10,7,.9),rgba(8,22,28,.76) 55%,rgba(14,9,34,.62));
   box-shadow:var(--shadow);
   backdrop-filter:blur(18px);
   position:relative;
@@ -109,12 +117,12 @@ button{border:0;cursor:pointer;background:none}
 @keyframes scanHeader{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
 .brand{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
 .brand-icon{
-  width:52px;height:52px;border-radius:16px;
+  width:58px;height:58px;border-radius:20px;
   display:grid;place-items:center;
-  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.45),transparent 18%),linear-gradient(135deg,#00ff88,#003b21 52%,#00170d);
+  background:radial-gradient(circle at 28% 22%,rgba(255,255,255,.62),transparent 18%),linear-gradient(135deg,#00ff88 0%,#00c8ff 44%,#8b5cf6 100%);
   box-shadow:0 0 0 1px rgba(0,255,136,.3),0 0 35px rgba(0,255,136,.26);
 }
-.brand h1{font-size:20px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;text-shadow:0 0 18px rgba(0,255,136,.38)}
+.brand h1{font-size:22px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;text-shadow:0 0 18px rgba(0,255,136,.38)}
 .brand p{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:2px}
 .top-meta{display:flex;align-items:center;gap:10px;position:relative;z-index:1;flex-wrap:wrap;justify-content:flex-end}
 .status-pill{
@@ -136,8 +144,8 @@ button{border:0;cursor:pointer;background:none}
 .layout{display:grid;grid-template-columns:minmax(310px,360px) minmax(0,1fr);gap:20px;align-items:start}
 .stack{display:grid;gap:16px}
 .panel{
-  background:linear-gradient(180deg,var(--surface),rgba(3,12,8,.86));
-  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(3,12,8,.82));
+  border:1px solid rgba(255,255,255,.10);
   border-radius:var(--r);
   padding:16px;
   box-shadow:var(--shadow);
@@ -269,6 +277,21 @@ audio{width:100%;height:38px;margin-top:9px;filter:drop-shadow(0 0 12px rgba(0,2
 .toast.ok{color:var(--accent);border-color:rgba(0,255,136,.5)}
 .toast.err{color:var(--danger);border-color:rgba(255,49,88,.44)}
 .toast.warn{color:var(--warn);border-color:rgba(255,209,102,.38)}
+
+.command-deck{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 18px 18px}
+.deck-card{border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px;background:linear-gradient(135deg,rgba(0,255,136,.09),rgba(0,200,255,.045));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.deck-card strong{display:block;font-size:18px;color:var(--text);font-weight:950;line-height:1}
+.deck-card span{display:block;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.premium-ribbon{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;border:1px solid rgba(255,209,102,.34);border-radius:999px;padding:7px 10px;background:rgba(255,209,102,.08);color:var(--gold);font-family:var(--mono);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.09em}
+.script-wrap{position:relative}
+.script-wrap:before{content:"LIVE STUDIO";position:absolute;right:14px;top:10px;z-index:2;font-family:var(--mono);font-size:10px;font-weight:950;letter-spacing:.14em;color:rgba(0,255,136,.42);pointer-events:none}
+.script{padding-top:34px;background:linear-gradient(180deg,rgba(0,0,0,.48),rgba(0,13,9,.42));border-color:rgba(255,255,255,.11)}
+.primary{position:relative;overflow:hidden;background:linear-gradient(135deg,#ffd166 0%,#00ff88 28%,#00c8ff 64%,#8b5cf6 100%);box-shadow:0 22px 64px rgba(0,255,136,.22),0 0 38px rgba(139,92,246,.18)}
+.primary:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-120%);transition:.45s ease}
+.primary:hover:before{transform:translateX(120%)}
+.tag-folder,.hist,.key-row,.player-card{background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(0,0,0,.24));border-color:rgba(255,255,255,.09)}
+@media(max-width:700px){.command-deck{grid-template-columns:1fr;margin:0 13px 13px}}
+
 @media(max-width:980px){
   .layout{grid-template-columns:1fr}
   .topbar{grid-template-columns:1fr}
@@ -291,6 +314,8 @@ audio{width:100%;height:38px;margin-top:9px;filter:drop-shadow(0 0 12px rgba(0,2
 </head>
 <body>
 <canvas id="matrixRain" aria-hidden="true"></canvas>
+<div class="ambient-orb orb-a" aria-hidden="true"></div>
+<div class="ambient-orb orb-b" aria-hidden="true"></div>
 <div class="shell">
   <header class="topbar">
     <div class="brand">
@@ -305,7 +330,7 @@ audio{width:100%;height:38px;margin-top:9px;filter:drop-shadow(0 0 12px rgba(0,2
     <div class="top-meta">
       <span class="status-pill">Voice <b>pNInz6ob…aJgB</b></span>
       <span class="status-pill">Model <b>eleven_v3</b></span>
-      <span class="status-pill">Mode <b>Stealth UI</b></span>
+      <span class="status-pill">Mode <b>VIP Pro</b></span>
     </div>
   </header>
 
@@ -365,6 +390,7 @@ audio{width:100%;height:38px;margin-top:9px;filter:drop-shadow(0 0 12px rgba(0,2
     <section class="stack">
       <section class="panel hero-panel">
         <div class="inner">
+          <div class="premium-ribbon">✦ VIP Pro Studio Interface</div>
           <div class="terminal-line"><span class="terminal-dot"></span><span>root@shadow-tts:~$ inject_script --voice adam --model eleven_v3</span></div>
           <div class="toolbar">
             <div class="toolbar-left"><span class="panel-title">Script Payload</span><span class="counter" id="charCount">0 / 5000</span></div>
@@ -373,13 +399,20 @@ audio{width:100%;height:38px;margin-top:9px;filter:drop-shadow(0 0 12px rgba(0,2
               <button class="ghost danger" id="clearTextBtn" type="button">Xóa</button>
             </div>
           </div>
-          <textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản. Chèn tag phản ứng như [laughs], [sighs], [pause], [clears throat] để Adam v3 tự nhiên hơn..."></textarea>
+          <div class="script-wrap"><textarea id="textInput" class="input script" spellcheck="false" placeholder="Nhập kịch bản. Chèn tag phản ứng như [laughs], [sighs], [pause], [clears throat] để Adam v3 tự nhiên hơn..."></textarea></div>
 
           <button class="primary" id="generateBtn" type="button">
             <svg id="playIcon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             <span id="spin" class="spinner hidden"></span>
             <span id="generateLabel">Kích hoạt tạo giọng</span>
           </button>
+        </div>
+        <div class="command-deck" aria-label="Thông số nhanh">
+          <div class="deck-card"><strong>Adam</strong><span>Voice Signature</span></div>
+          <div class="deck-card"><strong>v3</strong><span>Expression Engine</span></div>
+          <div class="deck-card"><strong>5K</strong><span>Max Characters</span></div>
+        </div>
+        <div class="inner" style="padding-top:0">
 
           <div class="player-card hidden" id="playerCard">
             <div class="player-meta">
